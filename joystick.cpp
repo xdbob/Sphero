@@ -15,18 +15,19 @@
 *  with this program; if not, write to the Free Software Foundation, Inc.,  *
 *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.              *
 ****************************************************************************/
-#include "debug.h"
-#include "ui_debug.h"
+#include "joystick.h"
 
-Debug::Debug(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::Debug)
+JoyStick::JoyStick(QObject *parent) :
+    QThread(parent)
 {
-    ui->setupUi(this);
-    ui->Joy;
+    sf::Joystick::Update();
 }
 
-Debug::~Debug()
+void JoyStick::run()
 {
-    delete ui;
+    exec();
 }
+
+int JoyStick::getAxeX(){return X;}
+int JoyStick::getAxeY(){return Y;}
+int JoyStick::getCurseur(){return C;}

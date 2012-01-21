@@ -15,18 +15,34 @@
 *  with this program; if not, write to the Free Software Foundation, Inc.,  *
 *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.              *
 ****************************************************************************/
-#include "debug.h"
-#include "ui_debug.h"
+#ifndef JOYSTICK_H
+#define JOYSTICK_H
 
-Debug::Debug(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::Debug)
-{
-    ui->setupUi(this);
-    ui->Joy;
-}
+#include <QThread>
+#include <QStringList>
+#include <SFML/Window/Joystick.hpp>
 
-Debug::~Debug()
+class JoyStick : public QThread
 {
-    delete ui;
-}
+    Q_OBJECT
+public:
+    explicit JoyStick(QObject *parent = 0);
+    int getAxeX();
+    int getAxeY();
+    int getCurseur();
+    
+signals:
+    void AxeX(int);
+    void AxeY(int);
+    void Curseur(int);
+    
+public slots:
+
+private:
+    void run();
+    int X;
+    int Y;
+    int C;
+};
+
+#endif // JOYSTICK_H
