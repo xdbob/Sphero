@@ -28,6 +28,8 @@ Core::Core(QObject *parent) :
     d = 0;
 
     QObject::connect(GUI, SIGNAL(ConsoleInput(QString)), this, SLOT(commande(QString)));
+    QObject::connect(joy, SIGNAL(started()), this, SLOT(CaptureJoy()));
+    QObject::connect(joy, SIGNAL(finished()), this, SLOT(SCaptureJoy()));
 }
 
 Core::~Core()
@@ -51,7 +53,7 @@ void Core::commande(QString instruction)
     }
     else if(instruction == "debug init")
     {
-        d = new Debug;
+        d = new Debug(joy, GUI);
         GUI->WriteConsole("Création du module de debug");
     }
     else if(instruction == "debug")
@@ -74,8 +76,31 @@ void Core::commande(QString instruction)
         else
             GUI->setEcho(false);
     }
+    else if(instruction == "joy start")
+    {
+        if(joy->isConnected())
+        {
+            GUI->WriteConsole("Lancement de la capture du JoyStick");
+            joy->start();
+        }
+        else
+        {
+            GUI->WriteConsole("Erreur lors du lancement de la capture :");
+            GUI->WriteConsole("<span style=\"color: red;\">Pas de JoyStick Connecté</span>");
+        }
+    }
     else
     {
         GUI->WriteConsole("instruction non comprise ...");
     }
+}
+
+void Core::CaptureJoy()
+{
+    GUI->WriteConsole("<span style=\"color: red;\">Capture du Joystick Lancée</span>");
+}
+
+void Core::SCaptureJoy()
+{
+    GUI->WriteConsole("<span style=\"color: red;\">Capture du Joystick Stoppée</span>");
 }

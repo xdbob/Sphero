@@ -48,6 +48,8 @@ void MainWindow::on_ConsoleInput_returnPressed()
 void MainWindow::WriteConsole(QString texte)
 {
     ui->Console->append("<span style=\"color: lime;\">" + texte + "</span>");
+    texte = "User : " + texte;
+    emit Written(texte);
 }
 
 void MainWindow::CleanConsole(){ui->Console->clear();}

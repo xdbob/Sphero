@@ -35,6 +35,8 @@ public slots:
 
 private slots:
     void commande(QString instruction);
+    void CaptureJoy();
+    void SCaptureJoy();
 
 private:
     MainWindow* GUI;

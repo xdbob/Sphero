@@ -18,15 +18,35 @@
 #include "debug.h"
 #include "ui_debug.h"
 
-Debug::Debug(QWidget *parent) :
-    QDialog(parent),
+Debug::Debug(JoyStick *t, MainWindow *c) :
     ui(new Ui::Debug)
 {
     ui->setupUi(this);
-    ui->Joy;
+
+
+    QObject::connect(t, SIGNAL(AxeX(int)), ui->AxeX, SLOT(display(int)));
+    QObject::connect(t, SIGNAL(AxeY(int)), ui->AxeY, SLOT(display(int)));
+    QObject::connect(t, SIGNAL(Curseur(int)), ui->Curseur, SLOT(display(int)));
+    /*
+    if(!file)
+    {
+        QObject::connect(c, SIGNAL(Written(QString)), this, SLOT(log(QString)));
+        QObject::connect(c, SIGNAL(ConsoleInput(QString)), this, SLOT(logInput(QString)));
+    }
+    */
 }
 
 Debug::~Debug()
 {
     delete ui;
+}
+
+void Debug::log(QString chaine)
+{
+
+}
+
+void Debug::logInput(QString chaine)
+{
+    log("User : " + chaine);
 }

@@ -43,6 +43,7 @@ private slots:
 
 signals:
     void ConsoleInput(QString);
+    void Written(QString);
 
 private:
     Ui::MainWindow *ui;

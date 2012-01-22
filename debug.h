@@ -19,6 +19,8 @@
 #define DEBUG_H
 
 #include <QDialog>
+#include "joystick.h"
+#include "mainwindow.h"
 
 namespace Ui {
 class Debug;
@@ -29,9 +31,12 @@ class Debug : public QDialog
     Q_OBJECT
     
 public:
-    explicit Debug(QWidget *parent = 0);
+    explicit Debug(JoyStick* t, MainWindow* c);
     ~Debug();
-    
+
+private slots:
+    void log(QString chaine);
+    void logInput(QString chaine);
 private:
     Ui::Debug *ui;
 };

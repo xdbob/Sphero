@@ -34,5 +34,15 @@ FORMS += \
     debug.ui
 
 
-LIBS += "C:\Program Files (x86)\SFML2\lib\mingw\libsfml-window.a" "C:\Program Files (x86)\SFML2\lib\mingw\libsfml-window-d.a"
-INCLUDEPATH += "C:\Program Files (x86)\SFML2\include"
+LIBS += \
+/SFML/lib/libsfml-main.a \
+/SFML/lib/libsfml-main-d.a \
+/SFML/lib/libsfml-system.a \
+/SFML/lib/libsfml-system-d.a \
+/SFML/lib/libsfml-graphics.a \
+/SFML/lib/libsfml-graphics-d.a \
+/SFML/lib/libsfml-window.a \
+/SFML/lib/libsfml-window-d.a
+
+INCLUDEPATH += \
+/SFML/include

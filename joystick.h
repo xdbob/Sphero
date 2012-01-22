@@ -30,6 +30,7 @@ public:
     int getAxeX();
     int getAxeY();
     int getCurseur();
+    bool isConnected();
     
 signals:
     void AxeX(int);
@@ -37,12 +38,16 @@ signals:
     void Curseur(int);
     
 public slots:
+    bool setAutoJoy();
+    bool setJoy(unsigned short ID);
+    void update();
 
 private:
     void run();
-    int X;
-    int Y;
-    int C;
+    float X;
+    float Y;
+    float C;
+    unsigned short id;
 };
 
 #endif // JOYSTICK_H

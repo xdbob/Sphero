@@ -118,7 +118,14 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionQuitter"/>
    </widget>
+   <widget class="QMenu" name="menuJoyStick">
+    <property name="title">
+     <string>JoyStick</string>
+    </property>
+    <addaction name="actionLancer_la_capture"/>
+   </widget>
    <addaction name="menuFichier"/>
+   <addaction name="menuJoyStick"/>
    <addaction name="menuAide"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -138,6 +145,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionAboutQt">
    <property name="text">
     <string>A propos de Qt</string>
+   </property>
+  </action>
+  <action name="actionLancer_la_capture">
+   <property name="text">
+    <string>Lancer la capture</string>
    </property>
   </action>
  </widget>
