@@ -20,19 +20,19 @@
 Core::Core(QObject *parent) :
     QObject(parent)
 {
+    //initialisatio et création des différents modules
     GUI = new MainWindow;
     GUI->show();
-
     joy = new JoyStick;
-
     d = 0;
 
+    //Connection des signaux et des slots
     QObject::connect(GUI, SIGNAL(ConsoleInput(QString)), this, SLOT(commande(QString)));
     QObject::connect(joy, SIGNAL(started()), this, SLOT(CaptureJoy()));
     QObject::connect(joy, SIGNAL(finished()), this, SLOT(SCaptureJoy()));
 }
 
-Core::~Core()
+Core::~Core(void)
 {
     delete GUI;
     if(d != 0)
@@ -95,12 +95,5 @@ void Core::commande(QString instruction)
     }
 }
 
-void Core::CaptureJoy()
-{
-    GUI->WriteConsole("<span style=\"color: red;\">Capture du Joystick Lancée</span>");
-}
-
-void Core::SCaptureJoy()
-{
-    GUI->WriteConsole("<span style=\"color: red;\">Capture du Joystick Stoppée</span>");
-}
+void Core::CaptureJoy(void){GUI->WriteConsole("<span style=\"color: red;\">Capture du Joystick Lancée</span>");}
+void Core::SCaptureJoy(void){GUI->WriteConsole("<span style=\"color: red;\">Capture du Joystick Stoppée</span>");}

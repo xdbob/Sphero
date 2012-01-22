@@ -30,19 +30,19 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    ~MainWindow(void);
 
 public slots:
     void WriteConsole(QString texte);
     void CleanConsole(void);
-    void Message(QString texte);
-    void setEcho(bool state);
+    void Message(QString texte);//Ecrire un message pour l'utilisateur
+    void setEcho(bool state);//Défini si une commande est recopiée dans la console
 
 private slots:
-    void on_ConsoleInput_returnPressed();
+    void on_ConsoleInput_returnPressed(void);//Validation d'une commande console
 
 signals:
-    void ConsoleInput(QString);
+    void ConsoleInput(QString);//Commande lancée dans la console
     void Written(QString);
 
 private:
@@ -50,4 +50,4 @@ private:
     bool echo;
 };
 
-#endif // MAINWINDOW_H
+#endif

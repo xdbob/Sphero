@@ -29,12 +29,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 }
 
-MainWindow::~MainWindow()
+MainWindow::~MainWindow(void)
 {
     delete ui;
 }
 
-void MainWindow::on_ConsoleInput_returnPressed()
+void MainWindow::on_ConsoleInput_returnPressed(void)
 {
     if(ui->ConsoleInput->text() != QString())
     {

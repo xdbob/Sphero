@@ -32,13 +32,13 @@ class Debug : public QDialog
     
 public:
     explicit Debug(JoyStick* t, MainWindow* c);
-    ~Debug();
+    ~Debug(void);
 
 private slots:
-    void log(QString chaine);
-    void logInput(QString chaine);
+    void log(QString chaine);//Traitement des sorties pour le log
+    void logInput(QString chaine);//Prétraitement des entrées pour le log
 private:
     Ui::Debug *ui;
 };
 
-#endif // DEBUG_H
+#endif

@@ -19,7 +19,6 @@
 #define JOYSTICK_H
 
 #include <QThread>
-#include <QStringList>
 #include <SFML/Window/Joystick.hpp>
 
 class JoyStick : public QThread
@@ -27,10 +26,10 @@ class JoyStick : public QThread
     Q_OBJECT
 public:
     explicit JoyStick(QObject *parent = 0);
-    int getAxeX();
-    int getAxeY();
-    int getCurseur();
-    bool isConnected();
+    int getAxeX(void);
+    int getAxeY(void);
+    int getCurseur(void);
+    bool isConnected(void);
     
 signals:
     void AxeX(int);
@@ -38,16 +37,16 @@ signals:
     void Curseur(int);
     
 public slots:
-    bool setAutoJoy();
-    bool setJoy(unsigned short ID);
-    void update();
+    bool setAutoJoy(void);//Sélection du premier JoyStick disponible
+    bool setJoy(unsigned short ID);//Sélection manuelle d'un JoyStick
+    void update(void);//Actualisation
 
 private:
-    void run();
+    void run(void);//Thread de capture du JoyStick sélectionné
     float X;
     float Y;
     float C;
     unsigned short id;
 };
 
-#endif // JOYSTICK_H
+#endif

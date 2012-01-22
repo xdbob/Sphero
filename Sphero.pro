@@ -35,14 +35,8 @@ FORMS += \
 
 
 LIBS += \
-/SFML/lib/libsfml-main.a \
-/SFML/lib/libsfml-main-d.a \
-/SFML/lib/libsfml-system.a \
-/SFML/lib/libsfml-system-d.a \
-/SFML/lib/libsfml-graphics.a \
-/SFML/lib/libsfml-graphics-d.a \
-/SFML/lib/libsfml-window.a \
-/SFML/lib/libsfml-window-d.a
+    C:/SFML/lib/libsfml-window.a \
+    C:/SFML/lib/libsfml-window-d.a
 
 INCLUDEPATH += \
-/SFML/include
+    C:/SFML/include

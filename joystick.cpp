@@ -20,17 +20,20 @@
 JoyStick::JoyStick(QObject *parent) :
     QThread(parent)
 {
-    update();
-    if(!setAutoJoy())
-        id = 25;
+    update();//Actualiation des JoySticks
+    if(!setAutoJoy())//Sélection du premier JoyStick disponible
+        id = 25;//Sinon affecter une valeure à l'id du joystick
 }
 
-void JoyStick::run()
+void JoyStick::run(void)
 {
-    if(!sf::Joystick::IsConnected(id))
-        return;
+    if(!sf::Joystick::IsConnected(id))//Vérification de la connection du JoyStick
+        return;//Sinon on ne lance pas la thread
     while(1)
     {
+        //Actualisation en temps réel des différents Axes
+        //Envoi du signal correspondant en cas de changement
+        update();
         if(sf::Joystick::GetAxisPosition(id, sf::Joystick::X) != X)
         {
             X = sf::Joystick::GetAxisPosition(id, sf::Joystick::X);
@@ -49,15 +52,14 @@ void JoyStick::run()
     }
 }
 
-bool JoyStick::setAutoJoy()
+bool JoyStick::setAutoJoy(void)
 {
+    //Parcours des différents JoySticks pouvant être connectés
     for (unsigned short i(0); i < sf::Joystick::Count; i++)
     {
-        if(sf::Joystick::IsConnected(i))
-        {
-            id = i;
+        //Sélection du premier JoyStick disponible
+        if(setJoy(i))
             return true;
-        }
     }
     return false;
 }
@@ -66,16 +68,17 @@ bool JoyStick::setJoy(unsigned short ID)
 {
     if(sf::Joystick::IsConnected(ID))
     {
-        if(sf::Joystick::HasAxis(ID, sf::Joystick::X))// || sf::Joystick::HasAxis(ID, sf::Joystick::HasAxis(ID, sf::Joystick::Y)))
+        //Vérifier si le JoyStick à suffisament d'axes
+        if(sf::Joystick::HasAxis(ID, sf::Joystick::X) || sf::Joystick::HasAxis(ID, sf::Joystick::Y) || sf::Joystick::HasAxis(ID, sf::Joystick::Z))
         id = ID;
         return true;
     }
     return false;
 }
 
-void JoyStick::update(){sf::Joystick::Update();}
-bool JoyStick::isConnected(){return sf::Joystick::IsConnected(id);}
+void JoyStick::update(void){sf::Joystick::Update();}
+bool JoyStick::isConnected(void){return sf::Joystick::IsConnected(id);}
 
-int JoyStick::getAxeX(){return X;}
-int JoyStick::getAxeY(){return Y;}
-int JoyStick::getCurseur(){return C;}
+int JoyStick::getAxeX(void){return X;}
+int JoyStick::getAxeY(void){return Y;}
+int JoyStick::getCurseur(void){return C;}

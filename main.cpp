@@ -18,10 +18,7 @@
 #include <QApplication>
 #include "core.h"
 
-#ifdef SDL_WIN
-#undef main
-#endif
-
+//Fonction main
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);

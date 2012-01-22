@@ -28,15 +28,15 @@ class Core : public QObject
     Q_OBJECT
 public:
     explicit Core(QObject *parent = 0);
-    ~Core();
+    ~Core(void);
 signals:
 
 public slots:
 
 private slots:
-    void commande(QString instruction);
-    void CaptureJoy();
-    void SCaptureJoy();
+    void commande(QString instruction);//Traitement des commandes (console)
+    void CaptureJoy(void);//Début de la capture de la position du JoyStick
+    void SCaptureJoy(void);//Fin de la capture de la position du JoyStick
 
 private:
     MainWindow* GUI;
@@ -44,4 +44,4 @@ private:
     JoyStick* joy;
 };
 
-#endif // CORE_H
+#endif

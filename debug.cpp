@@ -23,30 +23,24 @@ Debug::Debug(JoyStick *t, MainWindow *c) :
 {
     ui->setupUi(this);
 
-
+    //Connection des signaux et des slots
     QObject::connect(t, SIGNAL(AxeX(int)), ui->AxeX, SLOT(display(int)));
     QObject::connect(t, SIGNAL(AxeY(int)), ui->AxeY, SLOT(display(int)));
     QObject::connect(t, SIGNAL(Curseur(int)), ui->Curseur, SLOT(display(int)));
     /*
-    if(!file)
-    {
-        QObject::connect(c, SIGNAL(Written(QString)), this, SLOT(log(QString)));
-        QObject::connect(c, SIGNAL(ConsoleInput(QString)), this, SLOT(logInput(QString)));
-    }
+    QObject::connect(c, SIGNAL(Written(QString)), this, SLOT(log(QString)));
+    QObject::connect(c, SIGNAL(ConsoleInput(QString)), this, SLOT(logInput(QString)));
     */
 }
 
-Debug::~Debug()
+Debug::~Debug(void)
 {
     delete ui;
 }
 
 void Debug::log(QString chaine)
 {
-
+    //en attente d'implémentation
 }
 
-void Debug::logInput(QString chaine)
-{
-    log("User : " + chaine);
-}
+void Debug::logInput(QString chaine){log("User : " + chaine);}
