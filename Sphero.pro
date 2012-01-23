@@ -32,7 +32,8 @@ SOURCES += \
 FORMS += \
     mainwindow.ui \
     debug.ui
-
+win32{
+RC_FILE += ressources.rc
 
 LIBS += \
     C:/SFML/lib/libsfml-window.a \
@@ -40,3 +41,15 @@ LIBS += \
 
 INCLUDEPATH += \
     C:/SFML/include
+}
+
+linux{
+LIBS += \
+    -L/SFML/lib -lsfml-window -lsfml-window-d
+
+INCLUDEPATH += \
+    /SFML/include
+}
+
+RESOURCES += \
+    ressources.qrc
