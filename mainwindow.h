@@ -40,10 +40,13 @@ public slots:
 
 private slots:
     void on_ConsoleInput_returnPressed(void);//Validation d'une commande console
+    void LJoyStart(void);
+    void LJoyStop(void);
 
 signals:
     void ConsoleInput(QString);//Commande lancée dans la console
     void Written(QString);
+    void ComJoy(bool);
 
 private:
     Ui::MainWindow *ui;

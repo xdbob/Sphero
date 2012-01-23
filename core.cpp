@@ -30,6 +30,8 @@ Core::Core(QObject *parent) :
     QObject::connect(GUI, SIGNAL(ConsoleInput(QString)), this, SLOT(commande(QString)));
     QObject::connect(joy, SIGNAL(started()), this, SLOT(CaptureJoy()));
     QObject::connect(joy, SIGNAL(finished()), this, SLOT(SCaptureJoy()));
+    QObject::connect(joy, SIGNAL(terminated()), this, SLOT(SCaptureJoy()));
+    QObject::connect(GUI, SIGNAL(ComJoy(bool)), this, SLOT(ComJoyStick(bool)));
 }
 
 Core::~Core(void)
@@ -43,32 +45,7 @@ Core::~Core(void)
 void Core::commande(QString instruction)
 {
     if(instruction == "quit" || instruction == "exit")
-    {
-        GUI->WriteConsole("Quitter...");
-        qApp->quit();
-    }
-    else if(instruction[0] == 'e' && instruction[1] == 'c' && instruction[2] == 'h' && instruction[3] == 'o' && instruction[4] == ' ')
-    {
-        GUI->WriteConsole(instruction.remove(0, 5));
-    }
-    else if(instruction == "debug init")
-    {
-        d = new Debug(joy, GUI);
-        GUI->WriteConsole("Création du module de debug");
-    }
-    else if(instruction == "debug")
-    {
-        if(d != 0)
-        {
-            GUI->WriteConsole("Ouverture de la fenêtre de Debug");
-            d->show();
-        }
-        else
-        {
-            GUI->WriteConsole("Erreur lors de l'ouverture de la fenêtre de Debug.");
-            GUI->WriteConsole("Le module Debug n'est pas initialisé");
-        }
-    }
+        Quitter();
     else if(instruction[0] == 'c' && instruction[1] == 'l' && instruction[2] == 'e' && instruction[3] == 'a' && instruction[4] == 'n' && instruction[5] == ' ')
     {
         if(instruction.remove(0, 6) == "true" || instruction.remove(0, 6) == "1")
@@ -76,22 +53,70 @@ void Core::commande(QString instruction)
         else
             GUI->setEcho(false);
     }
+    else if(instruction[0] == 'e' && instruction[1] == 'c' && instruction[2] == 'h' && instruction[3] == 'o' && instruction[4] == ' ')
+        GUI->WriteConsole(instruction.remove(0, 5));
+    else if(instruction == "debug init")
+        DebugInit();
+    else if(instruction == "debug")
+        ShowDebug();
     else if(instruction == "joy start")
-    {
-        if(joy->isConnected())
-        {
-            GUI->WriteConsole("Lancement de la capture du JoyStick");
-            joy->start();
-        }
-        else
-        {
-            GUI->WriteConsole("Erreur lors du lancement de la capture :");
-            GUI->WriteConsole("<span style=\"color: red;\">Pas de JoyStick Connecté</span>");
-        }
-    }
+        ComJoyStick(true);
+    else if(instruction == "joy stop")
+        ComJoyStick(false);
     else
     {
         GUI->WriteConsole("instruction non comprise ...");
+    }
+}
+
+
+void Core::Quitter(void)
+{
+    GUI->WriteConsole("Quitter...");
+    qApp->quit();
+}
+
+void Core::DebugInit(void)
+{
+    if(d == 0)
+    {
+        d = new Debug(joy, GUI);
+        GUI->WriteConsole("Création du module de debug");
+    }
+    else
+        GUI->WriteConsole("Module de debug déjà créé");
+}
+
+void Core::ShowDebug(void)
+{
+    if(d != 0)
+    {
+        GUI->WriteConsole("Ouverture de la fenêtre de Debug");
+        d->show();
+    }
+    else
+    {
+        GUI->WriteConsole("Erreur lors de l'ouverture de la fenêtre de Debug.");
+        GUI->WriteConsole("Le module Debug n'est pas initialisé");
+    }
+}
+
+void Core::ComJoyStick(bool etat)
+{
+    if(etat)
+    {
+        GUI->WriteConsole("Lancement de la capture du JoyStick");
+        joy->start();
+    }
+    else
+    {
+        if(joy->isRunning())
+        {
+            GUI->WriteConsole("Arrêt de la capture");
+            joy->terminate();
+        }
+        else
+            GUI->WriteConsole("Impossible de stopper la capture : capture non lancée");
     }
 }
 

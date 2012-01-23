@@ -25,8 +25,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     echo = true;
     Message("Déconnecté");
+
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    QObject::connect(ui->actionLancer_la_capture, SIGNAL(triggered()), this, SLOT(LJoyStart()));
+    QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), this, SLOT(LJoyStop()));
 }
 
 MainWindow::~MainWindow(void)
@@ -63,3 +66,6 @@ void MainWindow::setEcho(bool state)
 {
     echo = state;
 }
+
+void MainWindow::LJoyStart(void){emit ComJoy(true);}
+void MainWindow::LJoyStop(void){emit ComJoy(false);}
