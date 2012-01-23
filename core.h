@@ -44,7 +44,7 @@ private slots:
     void DebugInit(void);
     void ShowDebug(void);
 
-    void ComJoyStick(bool etat);
+    void ComJoyStick(bool etat);//Lancement/Arrêt de la capture du JoyStick
 
 private:
     MainWindow* GUI;

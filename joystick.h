@@ -40,6 +40,7 @@ public slots:
     bool setAutoJoy(void);//Sélection du premier JoyStick disponible
     bool setJoy(unsigned short ID);//Sélection manuelle d'un JoyStick
     void update(void);//Actualisation
+    void stop(void);//Arrêt de la thread
 
 private:
     void run(void);//Thread de capture du JoyStick sélectionné
@@ -47,6 +48,7 @@ private:
     float Y;
     float C;
     unsigned short id;
+    bool boucle;
 };
 
 #endif

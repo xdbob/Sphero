@@ -19,6 +19,9 @@
 #define DEBUG_H
 
 #include <QDialog>
+#include <QMessageBox>
+#include <QFile>
+#include <QTextStream>
 #include "joystick.h"
 #include "mainwindow.h"
 
@@ -36,9 +39,10 @@ public:
 
 private slots:
     void log(QString chaine);//Traitement des sorties pour le log
-    void logInput(QString chaine);//Prétraitement des entrées pour le log
 private:
     Ui::Debug *ui;
+    QFile* fichier;
+    QTextStream* flux;
 };
 
 #endif

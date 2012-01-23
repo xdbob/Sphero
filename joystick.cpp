@@ -27,9 +27,10 @@ JoyStick::JoyStick(QObject *parent) :
 
 void JoyStick::run(void)
 {
+    boucle = true;
     if(!sf::Joystick::IsConnected(id))//Vérification de la connection du JoyStick
         return;//Sinon on ne lance pas la thread
-    while(1)
+    while(boucle)
     {
         //Actualisation en temps réel des différents Axes
         //Envoi du signal correspondant en cas de changement
@@ -50,6 +51,10 @@ void JoyStick::run(void)
             emit Curseur(C);
         }
     }
+    //Remise des valeures à 0 avant de Quitter la thread
+    X = 0;
+    Y = 0;
+    C = 0;
 }
 
 bool JoyStick::setAutoJoy(void)
@@ -82,3 +87,5 @@ bool JoyStick::isConnected(void){return sf::Joystick::IsConnected(id);}
 int JoyStick::getAxeX(void){return X;}
 int JoyStick::getAxeY(void){return Y;}
 int JoyStick::getCurseur(void){return C;}
+
+void JoyStick::stop(void){boucle = false;}

@@ -32,11 +32,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow(void);
 
+    enum{important, warning, standard, reseau, user};//Priorité (message console)
+
 public slots:
-    void WriteConsole(QString texte);
+    void WriteConsole(QString texte, int priority = MainWindow::standard);//Ecrire dans la console
     void CleanConsole(void);
     void Message(QString texte);//Ecrire un message pour l'utilisateur
     void setEcho(bool state);//Défini si une commande est recopiée dans la console
+    void setConnected(bool etat);
 
 private slots:
     void on_ConsoleInput_returnPressed(void);//Validation d'une commande console
@@ -46,7 +49,7 @@ private slots:
 signals:
     void ConsoleInput(QString);//Commande lancée dans la console
     void Written(QString);
-    void ComJoy(bool);
+    void ComJoy(bool);//Commande capture => JoyStick
 
 private:
     Ui::MainWindow *ui;

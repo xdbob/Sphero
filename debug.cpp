@@ -23,24 +23,30 @@ Debug::Debug(JoyStick *t, MainWindow *c) :
 {
     ui->setupUi(this);
 
+    fichier = new QFile("debug.log");
+    flux = new QTextStream(fichier);
+    if(fichier->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))//ouverture de debug.log
+    {
+        QObject::connect(c, SIGNAL(Written(QString)), this, SLOT(log(QString)));
+    }
+    else
+        QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir le fichier debug.log");
+
     //Connection des signaux et des slots
     QObject::connect(t, SIGNAL(AxeX(int)), ui->AxeX, SLOT(display(int)));
     QObject::connect(t, SIGNAL(AxeY(int)), ui->AxeY, SLOT(display(int)));
     QObject::connect(t, SIGNAL(Curseur(int)), ui->Curseur, SLOT(display(int)));
-    /*
-    QObject::connect(c, SIGNAL(Written(QString)), this, SLOT(log(QString)));
-    QObject::connect(c, SIGNAL(ConsoleInput(QString)), this, SLOT(logInput(QString)));
-    */
 }
 
 Debug::~Debug(void)
 {
+    fichier->close();
     delete ui;
+    delete fichier;
+    delete flux;
 }
 
 void Debug::log(QString chaine)
 {
-    //en attente d'implémentation
+    *flux << chaine << "\n";
 }
-
-void Debug::logInput(QString chaine){log("User : " + chaine);}

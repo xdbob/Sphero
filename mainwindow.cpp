@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     echo = true;
-    Message("Déconnecté");
+    setConnected(false);
 
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -41,17 +41,40 @@ void MainWindow::on_ConsoleInput_returnPressed(void)
 {
     if(ui->ConsoleInput->text() != QString())
     {
-        if(echo)
-            WriteConsole("<strong>" + ui->ConsoleInput->text() + "</strong>");
+        WriteConsole(ui->ConsoleInput->text(), MainWindow::user);
         emit ConsoleInput(ui->ConsoleInput->text());
         ui->ConsoleInput->clear();
     }
 }
 
-void MainWindow::WriteConsole(QString texte)
+void MainWindow::WriteConsole(QString texte, int priority)
 {
-    ui->Console->append("<span style=\"color: lime;\">" + texte + "</span>");
-    texte = "User : " + texte;
+    if(priority == MainWindow::user)
+    {
+        if(echo)
+            ui->Console->append("<span style=\"color: lime;\"><strong>" + texte + "</strong></span>");
+        texte = "User : " + texte;
+        emit Written(texte);
+        return;
+    }
+    else if(priority == MainWindow::important)
+    {
+        ui->Console->append("<span style=\"color: orange;\">" + texte + "</span>");
+        texte = "#Important# " + texte + " #Important#";
+    }
+    else if(priority == MainWindow::warning)
+    {
+        ui->Console->append("<span style=\"color: red;\">" + texte + "</span>");
+        texte = "#Warning# " + texte + " #Waring";
+    }
+    else if(priority == MainWindow::reseau)
+    {
+        ui->Console->append("<span style=\"color: white;\">" + texte + "</span>");
+        texte = "#Network# " + texte + " #Network";
+    }
+    else
+        ui->Console->append("<span style=\"color: lime;\">" + texte + "</span>");
+    texte = "Console : " + texte;
     emit Written(texte);
 }
 
@@ -65,6 +88,20 @@ void MainWindow::Message(QString texte)
 void MainWindow::setEcho(bool state)
 {
     echo = state;
+}
+
+void MainWindow::setConnected(bool etat)
+{
+    if(etat)
+        Message(tr("Connecté"));
+    else
+        Message(tr("Déconnecté"));
+
+    ui->Vitesse->setEnabled(etat);
+    ui->VitesseM1->setEnabled(etat);
+    ui->VitesseM2->setEnabled(etat);
+    ui->VitesseM3->setEnabled(etat);
+    ui->Batterie->setEnabled(etat);
 }
 
 void MainWindow::LJoyStart(void){emit ComJoy(true);}
