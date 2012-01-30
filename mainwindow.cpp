@@ -26,10 +26,10 @@ MainWindow::MainWindow(QWidget *parent) :
     echo = true;
     setConnected(false);
 
-    QObject::connect(ui->actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+    QObject::connect(ui->actionQuitter, SIGNAL(triggered()), SLOT(quit()));
     QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-    QObject::connect(ui->actionLancer_la_capture, SIGNAL(triggered()), this, SLOT(LJoyStart()));
-    QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), this, SLOT(LJoyStop()));
+    QObject::connect(ui->actionLancer_la_capture, SIGNAL(triggered()), SLOT(LJoyStart()));
+    QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), SLOT(LJoyStop()));
 }
 
 MainWindow::~MainWindow(void)
@@ -103,6 +103,8 @@ void MainWindow::setConnected(bool etat)
     ui->VitesseM3->setEnabled(etat);
     ui->Batterie->setEnabled(etat);
 }
+
+void MainWindow::quit(void){emit SQuit();}
 
 void MainWindow::LJoyStart(void){emit ComJoy(true);}
 void MainWindow::LJoyStop(void){emit ComJoy(false);}

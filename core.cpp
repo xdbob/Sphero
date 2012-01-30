@@ -25,13 +25,18 @@ Core::Core(QObject *parent) :
     d = 0;
     GUI = new MainWindow;
     GUI->show();
-    ComJoyStick(true);
+#ifdef QT_DEBUG
+    DebugInit();
+#endif
 
     //Connection des signaux et des slots
-    QObject::connect(GUI, SIGNAL(ConsoleInput(QString)), this, SLOT(commande(QString)));
-    QObject::connect(joy, SIGNAL(started()), this, SLOT(CaptureJoy()));
-    QObject::connect(joy, SIGNAL(finished()), this, SLOT(SCaptureJoy()));
-    QObject::connect(GUI, SIGNAL(ComJoy(bool)), this, SLOT(ComJoyStick(bool)));
+    QObject::connect(GUI, SIGNAL(ConsoleInput(QString)), SLOT(commande(QString)));
+    QObject::connect(joy, SIGNAL(started()), SLOT(CaptureJoy()));
+    QObject::connect(joy, SIGNAL(finished()), SLOT(SCaptureJoy()));
+    QObject::connect(GUI, SIGNAL(ComJoy(bool)), SLOT(ComJoyStick(bool)));
+    QObject::connect(GUI, SIGNAL(SQuit()), SLOT(Quitter()));
+
+    ComJoyStick(true);
 }
 
 Core::~Core(void)

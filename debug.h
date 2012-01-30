@@ -22,6 +22,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
+#include <QDateTime>
 #include "joystick.h"
 #include "mainwindow.h"
 

@@ -28,6 +28,7 @@ Debug::Debug(JoyStick *t, MainWindow *c) :
     if(fichier->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))//ouverture de debug.log
     {
         QObject::connect(c, SIGNAL(Written(QString)), this, SLOT(log(QString)));
+        *flux << "\n" << "##### Nouvelle instance le - " << QTime::currentTime().toString() << " #####";
     }
     else
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir le fichier debug.log");
@@ -48,5 +49,5 @@ Debug::~Debug(void)
 
 void Debug::log(QString chaine)
 {
-    *flux << chaine << "\n";
+    *flux << QTime::currentTime().toString() << " - " << chaine << "\n";
 }

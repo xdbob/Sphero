@@ -45,11 +45,13 @@ private slots:
     void on_ConsoleInput_returnPressed(void);//Validation d'une commande console
     void LJoyStart(void);
     void LJoyStop(void);
+    void quit(void);
 
 signals:
     void ConsoleInput(QString);//Commande lancée dans la console
     void Written(QString);
     void ComJoy(bool);//Commande capture => JoyStick
+    void SQuit(void);
 
 private:
     Ui::MainWindow *ui;
