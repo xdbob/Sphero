@@ -36,6 +36,8 @@ signals:
     void AxeX(int);
     void AxeY(int);
     void Curseur(int);
+    void Angle(int);
+    void Norme(int);
     
 public slots:
     bool setAutoJoy(void);//Sélection du premier JoyStick disponible
@@ -45,19 +47,16 @@ public slots:
     int getVitesseAbs(void);//Récupération de la vitesse absolue
     int getAngle(void);//Récupération de l'angle des coordonées polaires(°)
 
-private slots:
-    void updatePolaire(void);
-
 private:
     void run(void);//Thread de capture du JoyStick sélectionné
+    inline int norme(void);
+    inline int angle(void);
     float X;
     float Y;
     float C;
     unsigned short id;
     bool boucle;
-    int vitesse;
-    int angle;
-    bool running;
+    double pi;
 };
 
 #endif

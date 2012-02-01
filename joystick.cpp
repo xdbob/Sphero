@@ -21,12 +21,9 @@ JoyStick::JoyStick(QObject *parent) :
     QThread(parent)
 {
     update();//Actualiation des JoySticks
+    pi = (4.0 * atan(1.0));
     if(!setAutoJoy())//Sélection du premier JoyStick disponible
         id = 25;//Sinon affecter une valeure à l'id du joystick
-
-    running = false;
-    QObject::connect(this, SIGNAL(AxeX(int)), SLOT(updatePolaire()));
-    QObject::connect(this, SIGNAL(AxeY(int)), SLOT(updatePolaire()));
 }
 
 void JoyStick::run(void)
@@ -52,8 +49,10 @@ void JoyStick::run(void)
         if(sf::Joystick::GetAxisPosition(id, sf::Joystick::Z) != C)
         {
             C = sf::Joystick::GetAxisPosition(id, sf::Joystick::Z);
-            emit Curseur(C);
+            emit Curseur(-C);
         }
+        emit Norme(norme());
+        emit Angle(angle());
     }
     //Remise des valeures à 0 avant de Quitter la thread
     X = 0;
@@ -85,15 +84,19 @@ bool JoyStick::setJoy(unsigned short ID)
     return false;
 }
 
-void JoyStick::updatePolaire(void)
+int JoyStick::norme(void){return static_cast<int>(sqrt(Y*Y + X*X ));}
+int JoyStick::angle(void)
 {
-    if(!running)
-        return;
-    running = true;
-    const double pi(4.0 * atan(1.0));
-    vitesse = static_cast<int>(sqrt(Y*Y + X*X ));
-    angle = static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);
-    running = false;
+    if(Y == 0 && X == 0)
+        return 0;
+    else
+    {
+        int i(static_cast<int>((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))*180/pi));
+        i -= 90;
+        if (i < -180)
+            i += 360;
+        return i;
+    }
 }
 
 void JoyStick::update(void){sf::Joystick::Update();}
@@ -102,7 +105,7 @@ bool JoyStick::isConnected(void){return sf::Joystick::IsConnected(id);}
 int JoyStick::getAxeX(void){return X;}
 int JoyStick::getAxeY(void){return Y;}
 int JoyStick::getCurseur(void){return C;}
-int JoyStick::getVitesseAbs(void){return vitesse;}
-int JoyStick::getAngle(void){return angle;}
+int JoyStick::getVitesseAbs(void){return static_cast<int>(sqrt(Y*Y + X*X ));}
+int JoyStick::getAngle(void){return static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);}
 
 void JoyStick::stop(void){boucle = false;}

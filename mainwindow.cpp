@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), SLOT(quit()));
     QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     QObject::connect(ui->actionLancer_la_capture, SIGNAL(triggered()), SLOT(LJoyStart()));
-    QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), SLOT(LJoyStop()));
+    QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), SLOT(LJoyStop()));            
 }
 
 MainWindow::~MainWindow(void)
