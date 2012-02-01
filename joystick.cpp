@@ -23,6 +23,10 @@ JoyStick::JoyStick(QObject *parent) :
     update();//Actualiation des JoySticks
     if(!setAutoJoy())//Sélection du premier JoyStick disponible
         id = 25;//Sinon affecter une valeure à l'id du joystick
+
+    running = false;
+    QObject::connect(this, SIGNAL(AxeX(int)), SLOT(updatePolaire()));
+    QObject::connect(this, SIGNAL(AxeY(int)), SLOT(updatePolaire()));
 }
 
 void JoyStick::run(void)
@@ -81,11 +85,24 @@ bool JoyStick::setJoy(unsigned short ID)
     return false;
 }
 
+void JoyStick::updatePolaire(void)
+{
+    if(!running)
+        return;
+    running = true;
+    const double pi(4.0 * atan(1.0));
+    vitesse = static_cast<int>(sqrt(Y*Y + X*X ));
+    angle = static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);
+    running = false;
+}
+
 void JoyStick::update(void){sf::Joystick::Update();}
 bool JoyStick::isConnected(void){return sf::Joystick::IsConnected(id);}
 
 int JoyStick::getAxeX(void){return X;}
 int JoyStick::getAxeY(void){return Y;}
 int JoyStick::getCurseur(void){return C;}
+int JoyStick::getVitesseAbs(void){return vitesse;}
+int JoyStick::getAngle(void){return angle;}
 
 void JoyStick::stop(void){boucle = false;}

@@ -15,49 +15,23 @@
 *  with this program; if not, write to the Free Software Foundation, Inc.,  *
 *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.              *
 ****************************************************************************/
-#ifndef JOYSTICK_H
-#define JOYSTICK_H
+#ifndef NETWORK_H
+#define NETWORK_H
 
 #include <QThread>
-#include <SFML/Window/Joystick.hpp>
-#include <cmath>
 
-class JoyStick : public QThread
+class NetWork : public QThread
 {
     Q_OBJECT
 public:
-    explicit JoyStick(QObject *parent = 0);
-    int getAxeX(void);
-    int getAxeY(void);
-    int getCurseur(void);
-    bool isConnected(void);
+    explicit NetWork(QObject *parent = 0);
     
 signals:
-    void AxeX(int);
-    void AxeY(int);
-    void Curseur(int);
     
 public slots:
-    bool setAutoJoy(void);//Sélection du premier JoyStick disponible
-    bool setJoy(unsigned short ID);//Sélection manuelle d'un JoyStick
-    void update(void);//Actualisation
-    void stop(void);//Arrêt de la thread
-    int getVitesseAbs(void);//Récupération de la vitesse absolue
-    int getAngle(void);//Récupération de l'angle des coordonées polaires(°)
-
-private slots:
-    void updatePolaire(void);
 
 private:
-    void run(void);//Thread de capture du JoyStick sélectionné
-    float X;
-    float Y;
-    float C;
-    unsigned short id;
-    bool boucle;
-    int vitesse;
-    int angle;
-    bool running;
+    
 };
 
-#endif
+#endif // NETWORK_H

@@ -63,6 +63,11 @@ void Core::commande(QString instruction)
         GUI->WriteConsole(instruction.remove(0, 5));//echo...
     else if(instruction == "debug init")
         DebugInit();
+    else if(instruction == "debug -i")
+    {
+        DebugInit();
+        ShowDebug();
+    }
     else if(instruction == "debug")
         ShowDebug();
     else if(instruction == "joy start")

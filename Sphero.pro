@@ -20,14 +20,16 @@ HEADERS += \
     mainwindow.h \
     core.h \
     debug.h \
-    joystick.h
+    joystick.h \
+    network.h
 
 SOURCES += \
     mainwindow.cpp \
     main.cpp \
     core.cpp \
     debug.cpp \
-    joystick.cpp
+    joystick.cpp \
+    network.cpp
 
 FORMS += \
     mainwindow.ui \
