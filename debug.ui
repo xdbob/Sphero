@@ -76,6 +76,16 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QProgressBar" name="progressX">
+       <property name="minimum">
+        <number>-100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -113,6 +123,16 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QLCDNumber" name="AxeY"/>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="progressY">
+       <property name="minimum">
+        <number>-100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -152,6 +172,16 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLCDNumber" name="Curseur"/>
      </item>
+     <item>
+      <widget class="QProgressBar" name="progressCurseur">
+       <property name="minimum">
+        <number>-100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -190,6 +220,19 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLCDNumber" name="Angle"/>
      </item>
+     <item>
+      <widget class="QProgressBar" name="progressA">
+       <property name="minimum">
+        <number>-180</number>
+       </property>
+       <property name="maximum">
+        <number>180</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -227,6 +270,19 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QLCDNumber" name="Norme"/>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="progressN">
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>141</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

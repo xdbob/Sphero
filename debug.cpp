@@ -39,6 +39,12 @@ Debug::Debug(JoyStick *t, MainWindow *c) :
     QObject::connect(t, SIGNAL(Curseur(int)), ui->Curseur, SLOT(display(int)));
     QObject::connect(t, SIGNAL(Angle(int)), ui->Angle, SLOT(display(int)));
     QObject::connect(t, SIGNAL(Norme(int)), ui->Norme, SLOT(display(int)));
+
+    QObject::connect(t, SIGNAL(AxeX(int)), ui->progressX, SLOT(setValue(int)));
+    QObject::connect(t, SIGNAL(AxeY(int)), ui->progressY, SLOT(setValue(int)));
+    QObject::connect(t, SIGNAL(Curseur(int)), ui->progressCurseur, SLOT(setValue(int)));
+    QObject::connect(t, SIGNAL(Angle(int)), ui->progressA, SLOT(setValue(int)));
+    QObject::connect(t, SIGNAL(Norme(int)), ui->progressN, SLOT(setValue(int)));
 }
 
 Debug::~Debug(void)

@@ -91,11 +91,11 @@ int JoyStick::angle(void)
         return 0;
     else
     {
-        int i(static_cast<int>((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))*180/pi));
-        i -= 90;
-        if (i < -180)
-            i += 360;
-        return i;
+        double i((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))*180/pi);
+        i -= 90.0;
+        if (i < -180.0)
+            i += 360.0;
+        return static_cast<int>(i);
     }
 }
 
