@@ -43,13 +43,15 @@ public slots:
 
 private slots:
     void on_ConsoleInput_returnPressed(void);//Validation d'une commande console
+    //Slots appelés lors du lancement et de la capture du JoyStick
     void LJoyStart(void);
     void LJoyStop(void);
+
     void quit(void);
 
 signals:
     void ConsoleInput(QString);//Commande lancée dans la console
-    void Written(QString);
+    void Written(QString);//Quelque chose d'écrit dans la console
     void ComJoy(bool);//Commande capture => JoyStick
     void SQuit(void);
 

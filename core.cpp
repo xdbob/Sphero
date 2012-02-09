@@ -89,8 +89,14 @@ void Core::DebugInit(void)
 {
     if(d == 0)
     {
-        d = new Debug(joy, GUI);
+        d = new Debug;
+        QObject::connect(GUI, SIGNAL(Written(QString)), d, SLOT(log(QString)));
         GUI->WriteConsole(tr("Création du module de debug"), MainWindow::important);
+        QObject::connect(joy, SIGNAL(AxeX(int)), d, SLOT(setJoyX(int)));
+        QObject::connect(joy, SIGNAL(AxeY(int)), d, SLOT(setJoyY(int)));
+        QObject::connect(joy, SIGNAL(Curseur(int)), d, SLOT(setJoyC(int)));
+        QObject::connect(joy, SIGNAL(Angle(int)), d, SLOT(setJoyAngle(int)));
+        QObject::connect(joy, SIGNAL(Norme(int)), d, SLOT(setJoyNorme(int)));
     }
     else
         GUI->WriteConsole(tr("Module de debug déjà créé"), MainWindow::warning);

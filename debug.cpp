@@ -18,7 +18,7 @@
 #include "debug.h"
 #include "ui_debug.h"
 
-Debug::Debug(JoyStick *t, MainWindow *c) :
+Debug::Debug(void) :
     ui(new Ui::Debug)
 {
     ui->setupUi(this);
@@ -27,24 +27,14 @@ Debug::Debug(JoyStick *t, MainWindow *c) :
     flux = new QTextStream(fichier);
     if(fichier->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))//ouverture de debug.log
     {
-        QObject::connect(c, SIGNAL(Written(QString)), this, SLOT(log(QString)));
+        writable = true;
         *flux << "\n" << "##### Nouvelle instance le - " << QTime::currentTime().toString() << " #####";
     }
     else
+    {
+        writable = false;
         QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir le fichier debug.log");
-
-    //Connection des signaux et des slots
-    QObject::connect(t, SIGNAL(AxeX(int)), ui->AxeX, SLOT(display(int)));
-    QObject::connect(t, SIGNAL(AxeY(int)), ui->AxeY, SLOT(display(int)));
-    QObject::connect(t, SIGNAL(Curseur(int)), ui->Curseur, SLOT(display(int)));
-    QObject::connect(t, SIGNAL(Angle(int)), ui->Angle, SLOT(display(int)));
-    QObject::connect(t, SIGNAL(Norme(int)), ui->Norme, SLOT(display(int)));
-
-    QObject::connect(t, SIGNAL(AxeX(int)), ui->progressX, SLOT(setValue(int)));
-    QObject::connect(t, SIGNAL(AxeY(int)), ui->progressY, SLOT(setValue(int)));
-    QObject::connect(t, SIGNAL(Curseur(int)), ui->progressCurseur, SLOT(setValue(int)));
-    QObject::connect(t, SIGNAL(Angle(int)), ui->progressA, SLOT(setValue(int)));
-    QObject::connect(t, SIGNAL(Norme(int)), ui->progressN, SLOT(setValue(int)));
+    }
 }
 
 Debug::~Debug(void)
@@ -55,7 +45,39 @@ Debug::~Debug(void)
     delete flux;
 }
 
+bool Debug::canWrite(void){return writable;}
+
 void Debug::log(QString chaine)
 {
     *flux << QTime::currentTime().toString() << " - " << chaine << "\n";
+}
+
+void Debug::setJoyX(int value)
+{
+    ui->AxeX->display(value);
+    ui->progressX->setValue(value);
+}
+
+void Debug::setJoyY(int value)
+{
+    ui->AxeY->display(value);
+    ui->AxeY->setVisible(value);
+}
+
+void Debug::setJoyC(int value)
+{
+    ui->Curseur->display(value);
+    ui->progressCurseur->setValue(value);
+}
+
+void Debug::setJoyAngle(int value)
+{
+    ui->Angle->display(value);
+    ui->progressA->setValue(value);
+}
+
+void Debug::setJoyNorme(int value)
+{
+    ui->Norme->display(value);
+    ui->progressN->setValue(value);
 }

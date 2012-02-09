@@ -35,15 +35,24 @@ class Debug : public QDialog
     Q_OBJECT
     
 public:
-    explicit Debug(JoyStick* t, MainWindow* c);
+    explicit Debug(void);
     ~Debug(void);
+    bool canWrite(void);
 
-private slots:
+public slots:
     void log(QString chaine);//Traitement des sorties pour le log
+    //Actualisation des marqueurs widgets de l'interface graphique
+    void setJoyX(int value);
+    void setJoyY(int value);
+    void setJoyC(int value);
+    void setJoyAngle(int value);
+    void setJoyNorme(int value);
+
 private:
     Ui::Debug *ui;
     QFile* fichier;
     QTextStream* flux;
+    bool writable;
 };
 
 #endif

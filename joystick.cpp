@@ -105,6 +105,8 @@ bool JoyStick::isConnected(void){return sf::Joystick::IsConnected(id);}
 int JoyStick::getAxeX(void){return X;}
 int JoyStick::getAxeY(void){return Y;}
 int JoyStick::getCurseur(void){return C;}
+
+//Voir http://bit.ly/y1jdFM
 int JoyStick::getVitesseAbs(void){return static_cast<int>(sqrt(Y*Y + X*X ));}
 int JoyStick::getAngle(void){return static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);}
 
