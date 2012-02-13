@@ -1,9 +1,0 @@
-### Configuration requise ###
-
-cmake (+path)
-make (+path)
-MinGW (+path)
-
-SFML 2.0 compilée avec les outils précédents et installée dans C:\SFML
-
-Qt

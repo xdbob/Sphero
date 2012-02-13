@@ -65,12 +65,12 @@ void MainWindow::WriteConsole(QString texte, int priority)
     else if(priority == MainWindow::warning)
     {
         ui->Console->append("<span style=\"color: red;\">" + texte + "</span>");
-        texte = "#Warning# " + texte + " #Waring";
+        texte = "#Warning# " + texte + " #Waring#";
     }
     else if(priority == MainWindow::reseau)
     {
         ui->Console->append("<span style=\"color: white;\">" + texte + "</span>");
-        texte = "#Network# " + texte + " #Network";
+        texte = "#Network# " + texte + " #Network#";
     }
     else
         ui->Console->append("<span style=\"color: lime;\">" + texte + "</span>");

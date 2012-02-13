@@ -45,7 +45,7 @@ INCLUDEPATH += \
     C:/SFML/include
 }
 
-linux{
+unix{
 LIBS += \
     -L/SFML/lib -lsfml-window -lsfml-window-d
 
