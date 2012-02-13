@@ -1,4 +1,4 @@
-Configuration requise
+ï»¿Configuration requise
 =====================
 
 Windows
@@ -8,17 +8,17 @@ cmake
 make
 MinGW
 
-SFML 2.0 compilée avec les outils précédents et installée dans C:\SFML
+SFML 2.0 compilÃ©e avec les outils prÃ©cÃ©nts et installÃ©e dans C:\SFML
 
 Qt
 
 Linux
 -----
 
-apt-get et bash (installées par défaut sur ubuntu, debian etc.)
-Lancer en root dependances.sh pour préparer l'environnement de compilation. (sudo bash dependances.sh)
+apt-get et bash (installÃ©es par dÃ©faut sur ubuntu, debian etc.)
+Lancer en root dependances.sh pour prÃ©parer l'environnement de compilation. (sudo bash dependances.sh)
 
-MacOS (non testé)
+MacOS (non testÃ©)
 -----------------
 
 cmake
