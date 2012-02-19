@@ -34,6 +34,12 @@ SOURCES += \
 FORMS += \
     mainwindow.ui \
     debug.ui
+
+RESOURCES += \
+    ressources.qrc
+
+QT += testlib
+
 win32{
 RC_FILE += ressources.rc
 
@@ -52,6 +58,3 @@ LIBS += \
 INCLUDEPATH += \
     /SFML/include
 }
-
-RESOURCES += \
-    ressources.qrc

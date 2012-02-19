@@ -35,29 +35,15 @@ void JoyStick::run(void)
     {
         //Actualisation en temps réel des différents Axes
         //Envoi du signal correspondant en cas de changement
+        QTest::qSleep(10);
         update();
-        if(sf::Joystick::GetAxisPosition(id, sf::Joystick::X) != X)
-        {
-            X = sf::Joystick::GetAxisPosition(id, sf::Joystick::X);
-            emit AxeX(X);
-        }
-        if(sf::Joystick::GetAxisPosition(id, sf::Joystick::Y) != Y)
-        {
-            Y = sf::Joystick::GetAxisPosition(id, sf::Joystick::Y);
-            emit AxeY(Y);
-        }
-        if(sf::Joystick::GetAxisPosition(id, sf::Joystick::Z) != C)
-        {
-            C = sf::Joystick::GetAxisPosition(id, sf::Joystick::Z);
-            emit Curseur(-C);
-        }
+        emit AxeX(sf::Joystick::GetAxisPosition(id, sf::Joystick::X));
+        emit AxeY(sf::Joystick::GetAxisPosition(id, sf::Joystick::Y));
+        emit Curseur(-sf::Joystick::GetAxisPosition(id, sf::Joystick::Z));
         emit Norme(norme());
         emit Angle(angle());
     }
     //Remise des valeures à 0 avant de Quitter la thread
-    X = 0;
-    Y = 0;
-    C = 0;
 }
 
 bool JoyStick::setAutoJoy(void)
@@ -84,9 +70,14 @@ bool JoyStick::setJoy(unsigned short ID)
     return false;
 }
 
-int JoyStick::norme(void){return static_cast<int>(sqrt(Y*Y + X*X ));}
+int JoyStick::norme(void)
+{
+    int X(getAxeX()), Y(getAxeY());
+    return static_cast<int>(sqrt(Y*Y + X*X ));
+}
 int JoyStick::angle(void)
 {
+    int X(getAxeX()), Y(getAxeY());
     if(Y == 0 && X == 0)
         return 0;
     else
@@ -102,12 +93,20 @@ int JoyStick::angle(void)
 void JoyStick::update(void){sf::Joystick::Update();}
 bool JoyStick::isConnected(void){return sf::Joystick::IsConnected(id);}
 
-int JoyStick::getAxeX(void){return X;}
-int JoyStick::getAxeY(void){return Y;}
-int JoyStick::getCurseur(void){return C;}
+int JoyStick::getAxeX(void){return sf::Joystick::GetAxisPosition(id, sf::Joystick::X);}
+int JoyStick::getAxeY(void){return sf::Joystick::GetAxisPosition(id, sf::Joystick::Y);}
+int JoyStick::getCurseur(void){return -sf::Joystick::GetAxisPosition(id, sf::Joystick::Z);}
 
 //Voir http://bit.ly/y1jdFM
-int JoyStick::getVitesseAbs(void){return static_cast<int>(sqrt(Y*Y + X*X ));}
-int JoyStick::getAngle(void){return static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);}
+int JoyStick::getVitesseAbs(void)
+{
+    int X(getAxeX()), Y(getAxeY());
+    return static_cast<int>(sqrt(Y*Y + X*X ));
+}
+int JoyStick::getAngle(void)
+{
+    int X(getAxeX()), Y(getAxeY());
+    return static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);
+}
 
 void JoyStick::stop(void){boucle = false;}

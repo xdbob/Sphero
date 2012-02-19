@@ -28,7 +28,7 @@ Debug::Debug(void) :
     if(fichier->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))//ouverture de debug.log
     {
         writable = true;
-        *flux << "\n" << "##### Nouvelle instance le - " << QTime::currentTime().toString() << " #####";
+        *flux << "\n" << "##### Nouvelle instance le - " << QDateTime().currentDateTime().toString() << " #####\n";
     }
     else
     {
@@ -61,7 +61,7 @@ void Debug::setJoyX(int value)
 void Debug::setJoyY(int value)
 {
     ui->AxeY->display(value);
-    ui->AxeY->setVisible(value);
+    ui->progressY->setValue(value);
 }
 
 void Debug::setJoyC(int value)

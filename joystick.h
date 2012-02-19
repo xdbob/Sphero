@@ -19,6 +19,7 @@
 #define JOYSTICK_H
 
 #include <QThread>
+#include <QTest>
 #include <SFML/Window/Joystick.hpp>
 #include <cmath>
 
@@ -27,9 +28,9 @@ class JoyStick : public QThread
     Q_OBJECT
 public:
     explicit JoyStick(QObject *parent = 0);
-    int getAxeX(void);
-    int getAxeY(void);
-    int getCurseur(void);
+    inline int getAxeX(void);
+    inline int getAxeY(void);
+    inline int getCurseur(void);
     bool isConnected(void);
     
 signals:
@@ -51,9 +52,6 @@ private:
     void run(void);//Thread de capture du JoyStick sélectionné
     inline int norme(void);
     inline int angle(void);
-    float X;
-    float Y;
-    float C;
     unsigned short id;
     bool boucle;
     double pi;
