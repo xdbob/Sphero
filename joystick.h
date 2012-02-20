@@ -28,6 +28,8 @@ class JoyStick : public QThread
     Q_OBJECT
 public:
     explicit JoyStick(QObject *parent = 0);
+    static bool* getJoyStick(void);
+    static unsigned int nbJoyStickMax(void);
     inline int getAxeX(void);
     inline int getAxeY(void);
     inline int getCurseur(void);
@@ -42,7 +44,7 @@ signals:
     
 public slots:
     bool setAutoJoy(void);//Sélection du premier JoyStick disponible
-    bool setJoy(unsigned short ID);//Sélection manuelle d'un JoyStick
+    bool setJoy(unsigned int ID);//Sélection manuelle d'un JoyStick
     void update(void);//Actualisation
     void stop(void);//Arrêt de la thread
     int getVitesseAbs(void);//Récupération de la vitesse absolue

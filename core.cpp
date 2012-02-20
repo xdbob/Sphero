@@ -52,14 +52,14 @@ void Core::commande(QString instruction)
 {
     if(instruction == "quit" || instruction == "exit")
         Quitter();
-    else if(instruction[0] == 'c' && instruction[1] == 'l' && instruction[2] == 'e' && instruction[3] == 'a' && instruction[4] == 'n' && instruction[5] == ' ')
+    else if(instruction.startsWith("clean "))
     {
         if(instruction.remove(0, 6) == "true" || instruction.remove(0, 6) == "1")
             GUI->setEcho(false);//Les commandes ne sont pas répétées dans la console.
         else
             GUI->setEcho(true);
     }
-    else if(instruction[0] == 'e' && instruction[1] == 'c' && instruction[2] == 'h' && instruction[3] == 'o' && instruction[4] == ' ')
+    else if(instruction.startsWith("echo "))
         GUI->WriteConsole(instruction.remove(0, 5));//echo...
     else if(instruction == "debug init")
         DebugInit();
@@ -74,6 +74,20 @@ void Core::commande(QString instruction)
         ComJoyStick(true);
     else if(instruction == "joy stop")
         ComJoyStick(false);
+    else if(instruction == "joy ID")
+        getJoyState();
+    else if(instruction.startsWith("joy set "))
+    {
+        instruction.remove(0, 8);
+        bool ok;
+        int temp(instruction.toInt(&ok, 10));
+        if(!ok)
+            GUI->WriteConsole(instruction + tr(" n'est pas un nombre"));
+        else if(joy->setJoy(temp))
+            GUI->WriteConsole(tr("Joystick n°") + instruction + tr(" bien connecté"));
+        else
+            GUI->WriteConsole(tr("Impossible de connecter le joystick n°") + instruction, MainWindow::warning);
+    }
     else
         GUI->WriteConsole(tr("instruction non comprise ..."));
 }
@@ -140,6 +154,21 @@ void Core::ComJoyStick(bool etat)
         else
             GUI->WriteConsole(tr("Impossible de stopper la capture : capture non lancée"), MainWindow::warning);
     }
+}
+
+void Core::getJoyState(void)
+{
+    bool* j = joy->getJoyStick();
+    unsigned int jm(joy->nbJoyStickMax());
+    for(unsigned int i(0);i<jm;i++)
+    {
+        GUI->WriteConsole(tr("Joystick ID n°") + QString::number(i), MainWindow::warning);
+        if(j[i])
+            GUI->WriteConsole(tr("Connecté"));
+        else
+            GUI->WriteConsole(tr("Déconnecté"), MainWindow::important);
+    }
+    delete j;
 }
 
 void Core::CaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick Lancée"), MainWindow::important);}

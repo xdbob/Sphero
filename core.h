@@ -18,7 +18,8 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include <QtGui>
+#include <QObject>
+#include <QApplication>
 #include "mainwindow.h"
 #include "debug.h"
 #include "joystick.h"
@@ -45,6 +46,7 @@ private slots:
     void ShowDebug(void);
 
     void ComJoyStick(bool etat);//Lancement/Arrêt de la capture du JoyStick
+    void getJoyState(void);
 
 private:
     MainWindow* GUI;

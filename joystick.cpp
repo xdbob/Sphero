@@ -49,7 +49,7 @@ void JoyStick::run(void)
 bool JoyStick::setAutoJoy(void)
 {
     //Parcours des différents JoySticks pouvant être connectés
-    for (unsigned short i(0); i < sf::Joystick::Count; i++)
+    for (unsigned int i(0); i < sf::Joystick::Count; i++)
     {
         //Sélection du premier JoyStick disponible
         if(setJoy(i))
@@ -58,8 +58,10 @@ bool JoyStick::setAutoJoy(void)
     return false;
 }
 
-bool JoyStick::setJoy(unsigned short ID)
+bool JoyStick::setJoy(unsigned int ID)
 {
+    if(isRunning())
+        stop();
     if(sf::Joystick::IsConnected(ID))
     {
         //Vérifier si le JoyStick à suffisament d'axes
@@ -110,3 +112,25 @@ int JoyStick::getAngle(void)
 }
 
 void JoyStick::stop(void){boucle = false;}
+
+bool* JoyStick::getJoyStick(void)
+{
+    bool* joys = new bool[nbJoyStickMax()];
+    unsigned int jm(nbJoyStickMax());
+    for (unsigned short i(0); i < jm; i++)
+    {
+        if(sf::Joystick::IsConnected(i))
+        {
+            if(sf::Joystick::HasAxis(i, sf::Joystick::X) || sf::Joystick::HasAxis(i, sf::Joystick::Y) || sf::Joystick::HasAxis(i, sf::Joystick::Z))
+                joys[i] = true;
+        }
+        else
+            joys[i] = false;
+    }
+    return joys;
+}
+
+unsigned int JoyStick::nbJoyStickMax(void)
+{
+    return sf::Joystick::Count;
+}
