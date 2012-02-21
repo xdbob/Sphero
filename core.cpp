@@ -74,7 +74,7 @@ void Core::commande(QString instruction)
         ComJoyStick(true);
     else if(instruction == "joy stop")
         ComJoyStick(false);
-    else if(instruction == "joy ID")
+    else if(instruction == "joy list")
         getJoyState();
     else if(instruction.startsWith("joy set "))
     {
