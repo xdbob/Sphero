@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -28,6 +28,8 @@ Debug::Debug(void) :
     if(fichier->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))//ouverture de debug.log
     {
         writable = true;
+        flux->setAutoDetectUnicode(true);
+        flux->setCodec("utf-8");
         *flux << "\n" << "##### Nouvelle instance le - " << QDateTime().currentDateTime().toString() << " #####\n";
     }
     else

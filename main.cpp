@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -16,12 +16,15 @@
 *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.              *
 ****************************************************************************/
 #include <QApplication>
+#include <QTextCodec>
 #include "core.h"
 
 //Fonction main
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf-8"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf-8"));
     app.setApplicationVersion(QString("Version ") +
                               "0.1 Alpha"
                               );
