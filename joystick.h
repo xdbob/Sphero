@@ -43,15 +43,15 @@ signals:
     void Norme(int);
     
 public slots:
-    bool setAutoJoy(void);//Sélection du premier JoyStick disponible
-    bool setJoy(unsigned int ID);//Sélection manuelle d'un JoyStick
+    bool setAutoJoy(void);//SÃ©lection du premier JoyStick disponible
+    bool setJoy(unsigned int ID);//SÃ©lection manuelle d'un JoyStick
     void update(void);//Actualisation
-    void stop(void);//Arrêt de la thread
-    int getVitesseAbs(void);//Récupération de la vitesse absolue
-    int getAngle(void);//Récupération de l'angle des coordonées polaires(°)
+    void stop(void);//ArrÃªt de la thread
+    int getVitesseAbs(void);//RÃ©cupÃ©ration de la vitesse absolue
+    int getAngle(void);//RÃ©cupÃ©ration de l'angle des coordonÃ©es polaires(Â°)
 
 private:
-    void run(void);//Thread de capture du JoyStick sélectionné
+    void run(void);//Thread de capture du JoyStick sÃ©lectionnÃ©
     inline int norme(void);
     inline int angle(void);
     unsigned short id;

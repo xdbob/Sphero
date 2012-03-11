@@ -1,4 +1,4 @@
-﻿Liste des commandes consoles
+Liste des commandes consoles
 ============================
 
 

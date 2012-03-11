@@ -32,26 +32,26 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow(void);
 
-    enum{important, warning, standard, reseau, user};//Priorité (message console)
+    enum{important, warning, standard, reseau, user};//PrioritÃ© (message console)
 
 public slots:
     void WriteConsole(QString texte, int priority = MainWindow::standard);//Ecrire dans la console
     void CleanConsole(void);
     void Message(QString texte);//Ecrire un message pour l'utilisateur
-    void setEcho(bool state);//Défini si une commande est recopiée dans la console
+    void setEcho(bool state);//DÃ©fini si une commande est recopiÃ©e dans la console
     void setConnected(bool etat);
 
 private slots:
     void on_ConsoleInput_returnPressed(void);//Validation d'une commande console
-    //Slots appelés lors du lancement et de la capture du JoyStick
+    //Slots appelÃ©s lors du lancement et de la capture du JoyStick
     void LJoyStart(void);
     void LJoyStop(void);
 
     void quit(void);
 
 signals:
-    void ConsoleInput(QString);//Commande lancée dans la console
-    void Written(QString);//Quelque chose d'écrit dans la console
+    void ConsoleInput(QString);//Commande lancÃ©e dans la console
+    void Written(QString);//Quelque chose d'Ã©crit dans la console
     void ComJoy(bool);//Commande capture => JoyStick
     void SQuit(void);
 

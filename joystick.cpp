@@ -22,18 +22,18 @@ JoyStick::JoyStick(QObject *parent) :
 {
     update();//Actualiation des JoySticks
     pi = (4.0 * atan(1.0));
-    if(!setAutoJoy())//Sélection du premier JoyStick disponible
-        id = 25;//Sinon affecter une valeure à l'id du joystick
+    if(!setAutoJoy())//SÃ©lection du premier JoyStick disponible
+        id = 25;//Sinon affecter une valeure Ã  l'id du joystick
 }
 
 void JoyStick::run(void)
 {
     boucle = true;
-    if(!sf::Joystick::IsConnected(id))//Vérification de la connection du JoyStick
+    if(!sf::Joystick::IsConnected(id))//VÃ©rification de la connection du JoyStick
         return;//Sinon on ne lance pas la thread
     while(boucle)
     {
-        //Actualisation en temps réel des différents Axes
+        //Actualisation en temps rÃ©el des diffÃ©rents Axes
         //Envoi du signal correspondant en cas de changement
         QTest::qSleep(10);
         update();
@@ -43,15 +43,15 @@ void JoyStick::run(void)
         emit Norme(norme());
         emit Angle(angle());
     }
-    //Remise des valeures à 0 avant de Quitter la thread
+    //Remise des valeures Ã  0 avant de Quitter la thread
 }
 
 bool JoyStick::setAutoJoy(void)
 {
-    //Parcours des différents JoySticks pouvant être connectés
+    //Parcours des diffÃ©rents JoySticks pouvant Ãªtre connectÃ©s
     for (unsigned int i(0); i < sf::Joystick::Count; i++)
     {
-        //Sélection du premier JoyStick disponible
+        //SÃ©lection du premier JoyStick disponible
         if(setJoy(i))
             return true;
     }
@@ -64,7 +64,7 @@ bool JoyStick::setJoy(unsigned int ID)
         stop();
     if(sf::Joystick::IsConnected(ID))
     {
-        //Vérifier si le JoyStick à suffisament d'axes
+        //VÃ©rifier si le JoyStick Ã  suffisament d'axes
         if(sf::Joystick::HasAxis(ID, sf::Joystick::X) || sf::Joystick::HasAxis(ID, sf::Joystick::Y) || sf::Joystick::HasAxis(ID, sf::Joystick::Z))
         id = ID;
         return true;

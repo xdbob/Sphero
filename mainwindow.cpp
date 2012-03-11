@@ -93,9 +93,9 @@ void MainWindow::setEcho(bool state)
 void MainWindow::setConnected(bool etat)
 {
     if(etat)
-        Message(tr("Connecté"));
+        Message(tr("ConnectÃ©"));
     else
-        Message(tr("Déconnecté"));
+        Message(tr("DÃ©connectÃ©"));
 
     ui->Vitesse->setEnabled(etat);
     ui->VitesseM1->setEnabled(etat);

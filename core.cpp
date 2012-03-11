@@ -20,7 +20,7 @@
 Core::Core(QObject *parent) :
     QObject(parent)
 {
-    //initialisation et crÈation des diffÈrents modules
+    //initialisation et cr√©ation des diff√©rents modules
     joy = new JoyStick;
     d = 0;
     GUI = new MainWindow;
@@ -55,7 +55,7 @@ void Core::commande(QString instruction)
     else if(instruction.startsWith("clean "))
     {
         if(instruction.remove(0, 6) == "true" || instruction.remove(0, 6) == "1")
-            GUI->setEcho(false);//Les commandes ne sont pas rÈpÈtÈes dans la console.
+            GUI->setEcho(false);//Les commandes ne sont pas r√©p√©t√©es dans la console.
         else
             GUI->setEcho(true);
     }
@@ -84,9 +84,9 @@ void Core::commande(QString instruction)
         if(!ok)
             GUI->WriteConsole(instruction + tr(" n'est pas un nombre"));
         else if(joy->setJoy(temp))
-            GUI->WriteConsole(tr("Joystick n∞") + instruction + tr(" bien connectÈ"));
+            GUI->WriteConsole(tr("Joystick n¬∞") + instruction + tr(" bien connect√©"));
         else
-            GUI->WriteConsole(tr("Impossible de connecter le joystick n∞") + instruction, MainWindow::warning);
+            GUI->WriteConsole(tr("Impossible de connecter le joystick n¬∞") + instruction, MainWindow::warning);
     }
     else
         GUI->WriteConsole(tr("instruction non comprise ..."));
@@ -105,7 +105,7 @@ void Core::DebugInit(void)
     {
         d = new Debug;
         QObject::connect(GUI, SIGNAL(Written(QString)), d, SLOT(log(QString)));
-        GUI->WriteConsole(tr("CrÈation du module de debug"), MainWindow::important);
+        GUI->WriteConsole(tr("Cr√©ation du module de debug"), MainWindow::important);
         QObject::connect(joy, SIGNAL(AxeX(int)), d, SLOT(setJoyX(int)));
         QObject::connect(joy, SIGNAL(AxeY(int)), d, SLOT(setJoyY(int)));
         QObject::connect(joy, SIGNAL(Curseur(int)), d, SLOT(setJoyC(int)));
@@ -113,20 +113,20 @@ void Core::DebugInit(void)
         QObject::connect(joy, SIGNAL(Norme(int)), d, SLOT(setJoyNorme(int)));
     }
     else
-        GUI->WriteConsole(tr("Module de debug dÈj‡ crÈÈ"), MainWindow::warning);
+        GUI->WriteConsole(tr("Module de debug d√©j√† cr√©√©"), MainWindow::warning);
 }
 
 void Core::ShowDebug(void)
 {
     if(d != 0)
     {
-        GUI->WriteConsole(tr("Ouverture de la fenÍtre de Debug"));
+        GUI->WriteConsole(tr("Ouverture de la fen√™tre de Debug"));
         d->show();
     }
     else
     {
-        GUI->WriteConsole(tr("Erreur lors de l'ouverture de la fenÍtre de Debug : "), MainWindow::warning);
-        GUI->WriteConsole(tr("Le module Debug n'est pas initialisÈ"), MainWindow::warning);
+        GUI->WriteConsole(tr("Erreur lors de l'ouverture de la fen√™tre de Debug : "), MainWindow::warning);
+        GUI->WriteConsole(tr("Le module Debug n'est pas initialis√©"), MainWindow::warning);
     }
 }
 
@@ -136,7 +136,7 @@ void Core::ComJoyStick(bool etat)
     {
         if(joy->isRunning())
         {
-            GUI->WriteConsole(tr("Impossible de lancer la capture : capture en cours d'exÈcution"), MainWindow::warning);
+            GUI->WriteConsole(tr("Impossible de lancer la capture : capture en cours d'ex√©cution"), MainWindow::warning);
         }
         else
         {
@@ -148,11 +148,11 @@ void Core::ComJoyStick(bool etat)
     {
         if(joy->isRunning())
         {
-            GUI->WriteConsole(tr("ArrÍt de la capture"));
+            GUI->WriteConsole(tr("Arr√™t de la capture"));
             joy->stop();
         }
         else
-            GUI->WriteConsole(tr("Impossible de stopper la capture : capture non lancÈe"), MainWindow::warning);
+            GUI->WriteConsole(tr("Impossible de stopper la capture : capture non lanc√©e"), MainWindow::warning);
     }
 }
 
@@ -162,14 +162,14 @@ void Core::getJoyState(void)
     unsigned int jm(joy->nbJoyStickMax());
     for(unsigned int i(0);i<jm;i++)
     {
-        GUI->WriteConsole(tr("Joystick ID n∞") + QString::number(i), MainWindow::warning);
+        GUI->WriteConsole(tr("Joystick ID n¬∞") + QString::number(i), MainWindow::warning);
         if(j[i])
-            GUI->WriteConsole(tr("ConnectÈ"));
+            GUI->WriteConsole(tr("Connect√©"));
         else
-            GUI->WriteConsole(tr("DÈconnectÈ"), MainWindow::important);
+            GUI->WriteConsole(tr("D√©connect√©"), MainWindow::important);
     }
     delete j;
 }
 
-void Core::CaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick LancÈe"), MainWindow::important);}
-void Core::SCaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick StoppÈe"), MainWindow::important);}
+void Core::CaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick Lanc√©e"), MainWindow::important);}
+void Core::SCaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick Stopp√©e"), MainWindow::important);}

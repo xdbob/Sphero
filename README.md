@@ -1,4 +1,4 @@
-﻿Configuration requise
+Configuration requise
 =====================
 
 Windows

@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Script d'installation et de mise à jour de la SFML 2.0 et des dépendances necessaires pour compiler le projet Sphero
 # https://github.com/xdbob/Sphero
 

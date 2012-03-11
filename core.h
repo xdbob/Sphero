@@ -37,7 +37,7 @@ public slots:
 private slots:
 
     void commande(QString instruction);//Traitement des commandes (console)
-    void CaptureJoy(void);//Début de la capture de la position du JoyStick
+    void CaptureJoy(void);//DÃ©but de la capture de la position du JoyStick
     void SCaptureJoy(void);//Fin de la capture de la position du JoyStick
 
     void Quitter(void);
@@ -45,7 +45,7 @@ private slots:
     void DebugInit(void);
     void ShowDebug(void);
 
-    void ComJoyStick(bool etat);//Lancement/Arrêt de la capture du JoyStick
+    void ComJoyStick(bool etat);//Lancement/ArrÃªt de la capture du JoyStick
     void getJoyState(void);
 
 private:
