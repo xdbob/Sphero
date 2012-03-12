@@ -16,7 +16,7 @@ Initialise le module de débug.
 ### debug :
 Affiche la fenêtre de débug.
 ### debug -i :
-Initialise et affu=iche le module de débug.
+Initialise et affiche le module de débug.
 
 ##Commandes du JoyStick
 ###joy list :
