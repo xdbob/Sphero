@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -29,7 +29,7 @@ JoyStick::JoyStick(QObject *parent) :
 void JoyStick::run(void)
 {
     boucle = true;
-    if(!sf::Joystick::IsConnected(id))//Vérification de la connection du JoyStick
+    if(!sf::Joystick::isConnected(id))//Vérification de la connection du JoyStick
         return;//Sinon on ne lance pas la thread
     while(boucle)
     {
@@ -37,9 +37,9 @@ void JoyStick::run(void)
         //Envoi du signal correspondant en cas de changement
         QTest::qSleep(10);
         update();
-        emit AxeX(sf::Joystick::GetAxisPosition(id, sf::Joystick::X));
-        emit AxeY(sf::Joystick::GetAxisPosition(id, sf::Joystick::Y));
-        emit Curseur(-sf::Joystick::GetAxisPosition(id, sf::Joystick::Z));
+        emit AxeX(sf::Joystick::getAxisPosition(id, sf::Joystick::X));
+        emit AxeY(sf::Joystick::getAxisPosition(id, sf::Joystick::Y));
+        emit Curseur(-sf::Joystick::getAxisPosition(id, sf::Joystick::Z));
         emit Norme(norme());
         emit Angle(angle());
     }
@@ -49,7 +49,7 @@ void JoyStick::run(void)
 bool JoyStick::setAutoJoy(void)
 {
     //Parcours des différents JoySticks pouvant être connectés
-    for (unsigned int i(0); i < sf::Joystick::Count; i++)
+    for (unsigned int i(0); i < nbJoyStickMax(); i++)
     {
         //Sélection du premier JoyStick disponible
         if(setJoy(i))
@@ -62,10 +62,10 @@ bool JoyStick::setJoy(unsigned int ID)
 {
     if(isRunning())
         stop();
-    if(sf::Joystick::IsConnected(ID))
+    if(sf::Joystick::isConnected(ID))
     {
         //Vérifier si le JoyStick à suffisament d'axes
-        if(sf::Joystick::HasAxis(ID, sf::Joystick::X) || sf::Joystick::HasAxis(ID, sf::Joystick::Y) || sf::Joystick::HasAxis(ID, sf::Joystick::Z))
+        if(sf::Joystick::hasAxis(ID, sf::Joystick::X) || sf::Joystick::hasAxis(ID, sf::Joystick::Y) || sf::Joystick::hasAxis(ID, sf::Joystick::Z))
         id = ID;
         return true;
     }
@@ -92,12 +92,12 @@ int JoyStick::angle(void)
     }
 }
 
-void JoyStick::update(void){sf::Joystick::Update();}
-bool JoyStick::isConnected(void){return sf::Joystick::IsConnected(id);}
+void JoyStick::update(void){sf::Joystick::update();}
+bool JoyStick::isConnected(void){return sf::Joystick::isConnected(id);}
 
-int JoyStick::getAxeX(void){return sf::Joystick::GetAxisPosition(id, sf::Joystick::X);}
-int JoyStick::getAxeY(void){return sf::Joystick::GetAxisPosition(id, sf::Joystick::Y);}
-int JoyStick::getCurseur(void){return -sf::Joystick::GetAxisPosition(id, sf::Joystick::Z);}
+int JoyStick::getAxeX(void){return sf::Joystick::getAxisPosition(id, sf::Joystick::X);}
+int JoyStick::getAxeY(void){return sf::Joystick::getAxisPosition(id, sf::Joystick::Y);}
+int JoyStick::getCurseur(void){return -sf::Joystick::getAxisPosition(id, sf::Joystick::Z);}
 
 //Voir http://bit.ly/y1jdFM
 int JoyStick::getVitesseAbs(void)
@@ -119,9 +119,9 @@ bool* JoyStick::getJoyStick(void)
     unsigned int jm(nbJoyStickMax());
     for (unsigned short i(0); i < jm; i++)
     {
-        if(sf::Joystick::IsConnected(i))
+        if(sf::Joystick::isConnected(i))
         {
-            if(sf::Joystick::HasAxis(i, sf::Joystick::X) || sf::Joystick::HasAxis(i, sf::Joystick::Y) || sf::Joystick::HasAxis(i, sf::Joystick::Z))
+            if(sf::Joystick::hasAxis(i, sf::Joystick::X) || sf::Joystick::hasAxis(i, sf::Joystick::Y) || sf::Joystick::hasAxis(i, sf::Joystick::Z))
                 joys[i] = true;
         }
         else
