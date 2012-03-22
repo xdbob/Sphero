@@ -35,7 +35,7 @@ void JoyStick::run(void)
     {
         //Actualisation en temps réel des différents Axes
         //Envoi du signal correspondant en cas de changement
-        QTest::qSleep(10);
+        msleep(10);
         update();
         emit AxeX(sf::Joystick::getAxisPosition(id, sf::Joystick::X));
         emit AxeY(sf::Joystick::getAxisPosition(id, sf::Joystick::Y));

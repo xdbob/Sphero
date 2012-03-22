@@ -19,7 +19,6 @@
 #define JOYSTICK_H
 
 #include <QThread>
-#include <QTest>
 #include <SFML/Window/Joystick.hpp>
 #include <cmath>
 

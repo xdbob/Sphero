@@ -38,23 +38,26 @@ FORMS += \
 RESOURCES += \
     ressources.qrc
 
-QT += testlib
-
 win32{
 RC_FILE += ressources.rc
 
-LIBS += \
-    C:/SFML/lib/libsfml-window.a \
-    C:/SFML/lib/libsfml-window-d.a
-
+    CONFIG(release, debug|release){
+    LIBS += C:/SFML/lib/libsfml-window.a
+}
+    CONFIG(debug, debug|release){
+    LIBS += C:/SFML/lib/libsfml-window-d.a
+}
 INCLUDEPATH += \
     C:/SFML/include
 }
 
 unix{
-LIBS += \
-    -L/SFML/lib -lsfml-window -lsfml-window-d
-
+    CONFIG(release, debug|release){
+    LIBS += -L/SFML/lib -lsfml-window
+}
+    CONFIG(debug, debug|release){
+    LIBS += -L/SFML/lib -lsfml-window-d
+}
 INCLUDEPATH += \
     /SFML/include
 }
