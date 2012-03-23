@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file alias="globe">ressources/globe.png</file>
-    </qresource>
-</RCC>
