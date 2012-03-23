@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -108,3 +108,9 @@ void MainWindow::quit(void){emit SQuit();}
 
 void MainWindow::LJoyStart(void){emit ComJoy(true);}
 void MainWindow::LJoyStop(void){emit ComJoy(false);}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    event->accept();
+    emit SQuit();
+}

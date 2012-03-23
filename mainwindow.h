@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -19,6 +19,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 namespace Ui {
     class MainWindow;
@@ -33,6 +34,9 @@ public:
     ~MainWindow(void);
 
     enum{important, warning, standard, reseau, user};//Priorité (message console)
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 public slots:
     void WriteConsole(QString texte, int priority = MainWindow::standard);//Ecrire dans la console
