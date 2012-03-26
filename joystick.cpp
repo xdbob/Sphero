@@ -29,7 +29,7 @@ JoyStick::JoyStick(QObject *parent) :
 void JoyStick::run(void)
 {
     boucle = true;
-    if(!sf::Joystick::isConnected(id))//Vérification de la connection du JoyStick
+    if(!sf::Joystick::isConnected(id) || id == 25)//Vérification de la connection du JoyStick
         return;//Sinon on ne lance pas la thread
     while(boucle)
     {

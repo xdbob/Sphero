@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -88,6 +88,8 @@ void Core::commande(QString instruction)
         else
             GUI->WriteConsole(tr("Impossible de connecter le joystick n°") + instruction, MainWindow::warning);
     }
+    else if(instruction == "moo" || instruction == "apt-get moo")
+        GUI->moo();
     else
         GUI->WriteConsole(tr("instruction non comprise ..."));
 }

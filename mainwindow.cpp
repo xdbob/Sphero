@@ -114,3 +114,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->accept();
     emit SQuit();
 }
+
+void MainWindow::moo()
+{
+    QMessageBox::information(this, "Easter Egg", "              (___)\n              (oo)\n    /------\\/\n  / |          ||\n*  /\\-----/\\\n   ~~      ~~\n...\"Have you mooed today?\"...");
+}

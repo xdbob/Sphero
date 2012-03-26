@@ -20,6 +20,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QMessageBox>
 
 namespace Ui {
     class MainWindow;
@@ -44,6 +45,7 @@ public slots:
     void Message(QString texte);//Ecrire un message pour l'utilisateur
     void setEcho(bool state);//Défini si une commande est recopiée dans la console
     void setConnected(bool etat);
+    void moo(void);
 
 private slots:
     void on_ConsoleInput_returnPressed(void);//Validation d'une commande console
