@@ -1,0 +1,12 @@
+INPUT(
+./release\qextserialport.o
+./release\qextserialenumerator.o
+./release\qextserialport_win.o
+./release\qextserialenumerator_win.o
+./release\main.o
+./release\dialog.o
+./release\hled.o
+./release\moc_qextserialenumerator.o
+./release\moc_dialog.o
+./release\moc_hled.o
+);

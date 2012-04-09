@@ -19,6 +19,7 @@
 #define NETWORK_H
 
 #include <QThread>
+#include "qextserialport.h"
 
 class NetWork : public QThread
 {

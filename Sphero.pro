@@ -61,3 +61,5 @@ unix{
 INCLUDEPATH += \
     /SFML/include
 }
+
+include(Serial/src/qextserialport.pri)

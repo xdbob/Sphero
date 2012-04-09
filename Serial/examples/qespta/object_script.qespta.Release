@@ -1,0 +1,14 @@
+INPUT(
+./release\main.o
+./release\MainWindow.o
+./release\MessageWindow.o
+./release\QespTest.o
+./release\qextserialport.o
+./release\qextserialenumerator.o
+./release\qextserialport_win.o
+./release\qextserialenumerator_win.o
+./release\moc_MainWindow.o
+./release\moc_MessageWindow.o
+./release\moc_QespTest.o
+./release\moc_qextserialenumerator.o
+);
