@@ -21,8 +21,10 @@
 #include <QObject>
 #include <QApplication>
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "debug.h"
 #include "joystick.h"
+#include "network.h"
 
 class Core : public QObject
 {
@@ -48,10 +50,14 @@ private slots:
     void ComJoyStick(bool etat);//Lancement/Arrêt de la capture du JoyStick
     void getJoyState(void);
 
+    void actuPorts(QStringList prts);
+    void setPort(void);
+
 private:
     MainWindow* GUI;
     Debug* d;
     JoyStick* joy;
+    NetWork* net;
 };
 
 #endif

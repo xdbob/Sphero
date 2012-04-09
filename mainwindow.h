@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -35,6 +35,7 @@ public:
     ~MainWindow(void);
 
     enum{important, warning, standard, reseau, user};//Priorité (message console)
+    Ui::MainWindow *getUi();
 
 protected:
     void closeEvent(QCloseEvent *event);

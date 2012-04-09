@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), SLOT(quit()));
     QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     QObject::connect(ui->actionLancer_la_capture, SIGNAL(triggered()), SLOT(LJoyStart()));
-    QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), SLOT(LJoyStop()));            
+    QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), SLOT(LJoyStop()));
 }
 
 MainWindow::~MainWindow(void)
@@ -119,3 +119,5 @@ void MainWindow::moo()
 {
     QMessageBox::information(this, "Easter Egg", "              (___)\n              (oo)\n    /------\\/\n  / |          ||\n*  /\\-----/\\\n   ~~      ~~\n...\"Have you mooed today?\"...");
 }
+
+Ui::MainWindow *MainWindow::getUi(){return ui;}

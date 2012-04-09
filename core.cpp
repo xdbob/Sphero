@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -23,11 +23,15 @@ Core::Core(QObject *parent) :
     //initialisation et création des différents modules
     joy = new JoyStick;
     d = 0;
+    net = new NetWork;
     GUI = new MainWindow;
     GUI->show();
+    net->setGUI(GUI);
 #ifdef QT_DEBUG
     DebugInit();
 #endif
+
+    actuPorts(net->actuPort());
 
     //Connection des signaux et des slots
     QObject::connect(GUI, SIGNAL(ConsoleInput(QString)), SLOT(commande(QString)));
@@ -35,6 +39,8 @@ Core::Core(QObject *parent) :
     QObject::connect(joy, SIGNAL(finished()), SLOT(SCaptureJoy()));
     QObject::connect(GUI, SIGNAL(ComJoy(bool)), SLOT(ComJoyStick(bool)));
     QObject::connect(GUI, SIGNAL(SQuit()), SLOT(Quitter()));
+    QObject::connect(net, SIGNAL(connected(bool)), GUI, SLOT(setConnected(bool)));
+    QObject::connect(GUI->getUi()->commandLinkButton, SIGNAL(clicked()), SLOT(setPort()));
 
     ComJoyStick(true);
 }
@@ -46,6 +52,7 @@ Core::~Core(void)
     if(d != 0)
         delete d;
     delete joy;
+    delete net;
 }
 
 void Core::commande(QString instruction)
@@ -70,6 +77,19 @@ void Core::commande(QString instruction)
     }
     else if(instruction == "debug")
         ShowDebug();
+    else if(instruction.startsWith("port list"))
+    {
+        instruction.remove(0, 9);
+        if(instruction == " -v")
+            net->echoPorts(true);
+        else
+            net->echoPorts();
+    }
+    else if(instruction.startsWith("port set"))
+    {
+        instruction.remove(0, 9);
+        net->setPort(instruction);
+    }
     else if(instruction == "joy start")
         ComJoyStick(true);
     else if(instruction == "joy stop")
@@ -175,3 +195,25 @@ void Core::getJoyState(void)
 
 void Core::CaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick Lancée"), MainWindow::important);}
 void Core::SCaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick Stoppée"), MainWindow::important);}
+
+void Core::actuPorts(QStringList prts)
+{
+    GUI->getUi()->comboBox->clear();
+    GUI->getUi()->comboBox->addItems(prts);
+}
+
+void Core::setPort()
+{
+    if(net->isConnected())
+    {
+        net->deco();
+        GUI->getUi()->comboBox->setEnabled(true);
+        GUI->getUi()->commandLinkButton->setText(tr("Connecter"));
+    }
+    else
+    {
+        net->setPort(GUI->getUi()->comboBox->currentText());
+        GUI->getUi()->comboBox->setEnabled(false);
+        GUI->getUi()->commandLinkButton->setText(tr("Déonnecter"));
+    }
+}

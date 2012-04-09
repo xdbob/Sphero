@@ -19,20 +19,39 @@
 #define NETWORK_H
 
 #include <QThread>
+#include <QStringList>
 #include "qextserialport.h"
+#include "qextserialenumerator.h"
+#include "mainwindow.h"
 
 class NetWork : public QThread
 {
     Q_OBJECT
 public:
     explicit NetWork(QObject *parent = 0);
+    ~NetWork();
+    void setGUI(MainWindow* interface);
+    bool isConnected(void);
+    QStringList actuPort(void);
     
 signals:
+    void connected(bool);
     
 public slots:
+    void echoPorts(bool verbose = false);
+    void setPort(QString name);
+    void deco(void);
+
+
+private slots:
+    void getMessage(void);
+    void closed(bool y);
 
 private:
-    
+    MainWindow* GUI;
+    QextSerialPort* port;
+    bool connect;
+    QByteArray bytesReceived;
 };
 
 #endif // NETWORK_H
