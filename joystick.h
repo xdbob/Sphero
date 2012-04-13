@@ -40,6 +40,7 @@ signals:
     void Curseur(int);
     void Angle(int);
     void Norme(int);
+    void Actu(void);
     
 public slots:
     bool setAutoJoy(void);//Sélection du premier JoyStick disponible

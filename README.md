@@ -10,7 +10,11 @@ MinGW
 
 SFML 2.0 compilée avec les outils précénts et installée dans C:\SFML
 
-Qt
+QtSDK (+sources) > 4.7
+
+Changez le fichier \QtSDK\Desktop\Qt\4.X.X\mingw\include\QtCore\private\qwineventnotifier_p.h:
+// #include "../../../src/corelib/kernel/qwineventnotifier_p.h"
+#include "../../../../../../../QtSources/4.X.X/src/corelib/kernel/qwineventnotifier_p.h"
 
 Linux
 -----

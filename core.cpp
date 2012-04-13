@@ -202,18 +202,29 @@ void Core::actuPorts(QStringList prts)
     GUI->getUi()->comboBox->addItems(prts);
 }
 
-void Core::setPort()
+void Core::setPort(void)
 {
     if(net->isConnected())
     {
         net->deco();
-        GUI->getUi()->comboBox->setEnabled(true);
-        GUI->getUi()->commandLinkButton->setText(tr("Connecter"));
+        if(!net->isConnected())
+        {
+            GUI->getUi()->comboBox->setEnabled(true);
+            GUI->getUi()->commandLinkButton->setText(tr("Connecter"));
+        }
     }
     else
     {
         net->setPort(GUI->getUi()->comboBox->currentText());
-        GUI->getUi()->comboBox->setEnabled(false);
-        GUI->getUi()->commandLinkButton->setText(tr("Déonnecter"));
+        if(net->isConnected())
+        {
+            GUI->getUi()->comboBox->setEnabled(false);
+            GUI->getUi()->commandLinkButton->setText(tr("Déonnecter"));
+        }
     }
+}
+
+void Core::setMoteursSpeed(void)
+{
+    //not implemented yet
 }

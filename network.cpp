@@ -104,8 +104,13 @@ void NetWork::getMessage(void)
     // only do input if all of it has been received.
     // without this the serial port transports line of messages
     // with only 3 or 4 bytes at a time
-    if(bytes.contains('\n'))
+    //if(bytes.contains('\n'))
+    if(bytesReceived.endsWith('\n'))
     {
+
+        if(!bytesReceived.startsWith(0b01011000))
+            GUI->WriteConsole(tr("bug"));
+        bytesReceived.remove(0, 1);
         GUI->WriteConsole(QString::fromAscii(bytesReceived), MainWindow::reseau);
         bytesReceived.clear();
     }
@@ -126,4 +131,60 @@ void NetWork::deco()
     {
         closed(false);
     }
+}
+
+void NetWork::sendMessage(int commande, QList<unsigned char> var)
+{
+    if(!isConnected())
+    {
+        GUI->WriteConsole(tr("Impossible d'envoyer le message, le module n'est pas connecté"), MainWindow::reseau);
+    }
+    QByteArray message;
+    unsigned char octet(0b01010010);
+    message.append(octet);
+    switch(commande)
+    {
+    case NetWork::ping:
+        octet = 0b11001100;
+        message.append(octet);
+        break;
+    case NetWork::getAccelero:
+        octet = 0b10110110;
+        message.append(octet);
+        break;
+    case NetWork::getGyro:
+        octet = 0b01101101;
+        message.append(octet);
+        break;
+    case NetWork::moteur:
+        octet = 0b10101010;
+        message.append(octet);
+        if(var.size() != 3)
+        {
+            GUI->WriteConsole(tr("Erreur commande moteur : arguments"), MainWindow::warning);
+            return;
+        }
+        else if(var[0] > 3 || var[2] > 1)
+        {
+            GUI->WriteConsole(tr("Erreur commande moteur : arguments"), MainWindow::warning);
+            return;
+        }
+        else
+        {
+            message.append(var[0]);
+            message.append(var[1]);
+            message.append(var[2]);
+        }
+        break;
+    case NetWork::stopall:
+        octet = 0b01110111;
+        message.append(octet);
+        break;
+    default:
+        GUI->WriteConsole(tr("Erreur de commande"), MainWindow::warning);
+        return;
+        break;
+    }
+    message.append('\n');
+    port->write(message);
 }

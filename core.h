@@ -53,6 +53,8 @@ private slots:
     void actuPorts(QStringList prts);
     void setPort(void);
 
+    void setMoteursSpeed(void);
+
 private:
     MainWindow* GUI;
     Debug* d;

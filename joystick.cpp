@@ -35,15 +35,15 @@ void JoyStick::run(void)
     {
         //Actualisation en temps réel des différents Axes
         //Envoi du signal correspondant en cas de changement
-        msleep(10);
+        msleep(50);
         update();
-        emit AxeX(sf::Joystick::getAxisPosition(id, sf::Joystick::X));
-        emit AxeY(sf::Joystick::getAxisPosition(id, sf::Joystick::Y));
-        emit Curseur(-sf::Joystick::getAxisPosition(id, sf::Joystick::Z));
+        emit AxeX(getAxeX());
+        emit AxeY(getAxeY());
+        emit Curseur(getCurseur());
         emit Norme(norme());
         emit Angle(angle());
+        emit Actu;
     }
-    //Remise des valeures à 0 avant de Quitter la thread
 }
 
 bool JoyStick::setAutoJoy(void)

@@ -20,6 +20,7 @@
 
 #include <QThread>
 #include <QStringList>
+#include <QList>
 #include "qextserialport.h"
 #include "qextserialenumerator.h"
 #include "mainwindow.h"
@@ -27,12 +28,14 @@
 class NetWork : public QThread
 {
     Q_OBJECT
+
 public:
     explicit NetWork(QObject *parent = 0);
     ~NetWork();
     void setGUI(MainWindow* interface);
     bool isConnected(void);
     QStringList actuPort(void);
+    enum {moteur, getGyro, getAccelero, ping, stopall};
     
 signals:
     void connected(bool);
@@ -41,7 +44,7 @@ public slots:
     void echoPorts(bool verbose = false);
     void setPort(QString name);
     void deco(void);
-
+    void sendMessage(int commande = NetWork::ping, QList<unsigned char> var = QList<unsigned char>());
 
 private slots:
     void getMessage(void);
