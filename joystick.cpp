@@ -42,7 +42,7 @@ void JoyStick::run(void)
         emit Curseur(getCurseur());
         emit Norme(norme());
         emit Angle(angle());
-        emit Actu;
+        emit Actu();
     }
 }
 

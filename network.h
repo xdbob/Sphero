@@ -52,6 +52,7 @@ public slots:
 private slots:
     void getMessage(void);
     void closed(bool y);
+    void pingpong(void);
 
 private:
     MainWindow* GUI;

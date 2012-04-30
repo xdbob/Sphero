@@ -116,7 +116,7 @@ void NetWork::getMessage(void)
         bytesReceived.remove(0, 1);
         bytesReceived.remove(bytesReceived.size() - 1, 1);
         if(bytesReceived.startsWith(0b00110011))
-            emit pong();
+            emit Pong();
         else if(bytesReceived.startsWith(0b01101101))
             accelero(bytesReceived);
         else if(bytesReceived.startsWith(0b01101101))
@@ -143,7 +143,7 @@ void NetWork::deco()
     }
 }
 
-void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<bool> var2)
+void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned char> var2)
 {
     if(!isConnected())
     {
