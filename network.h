@@ -39,12 +39,15 @@ public:
     
 signals:
     void connected(bool);
+    void Gyroscope(QList<int>);
+    void Acceleroscope(QList<int>);
+    void Pong(void);
     
 public slots:
     void echoPorts(bool verbose = false);
     void setPort(QString name);
     void deco(void);
-    void sendMessage(int commande = NetWork::ping, QList<unsigned char> var = QList<unsigned char>());
+    void sendMessage(int commande = NetWork::ping, QList<unsigned char> var = QList<unsigned char>(), QList<unsigned char> var2 = QList<unsigned char>());
 
 private slots:
     void getMessage(void);
@@ -55,6 +58,8 @@ private:
     QextSerialPort* port;
     bool connect;
     QByteArray bytesReceived;
+    inline void gyro(QByteArray datas);
+    inline void accelero(QByteArray datas);
 };
 
 #endif // NETWORK_H

@@ -107,10 +107,20 @@ void NetWork::getMessage(void)
     //if(bytes.contains('\n'))
     if(bytesReceived.endsWith('\n'))
     {
-
         if(!bytesReceived.startsWith(0b01011000))
+        {
             GUI->WriteConsole(tr("bug"));
+            bytesReceived.clear();
+            return;
+        }
         bytesReceived.remove(0, 1);
+        bytesReceived.remove(bytesReceived.size() - 1, 1);
+        if(bytesReceived.startsWith(0b00110011))
+            emit pong();
+        else if(bytesReceived.startsWith(0b01101101))
+            accelero(bytesReceived);
+        else if(bytesReceived.startsWith(0b01101101))
+            gyro(bytesReceived);
         GUI->WriteConsole(QString::fromAscii(bytesReceived), MainWindow::reseau);
         bytesReceived.clear();
     }
@@ -133,7 +143,7 @@ void NetWork::deco()
     }
 }
 
-void NetWork::sendMessage(int commande, QList<unsigned char> var)
+void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<bool> var2)
 {
     if(!isConnected())
     {
@@ -159,12 +169,14 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var)
     case NetWork::moteur:
         octet = 0b10101010;
         message.append(octet);
-        if(var.size() != 3)
+        if(var.size() != 3 || var2.size() != 3)
         {
             GUI->WriteConsole(tr("Erreur commande moteur : arguments"), MainWindow::warning);
             return;
         }
-        else if(var[0] > 3 || var[2] > 1)
+        else if((var2[0] != 0b00000000 && var2[0] != 0b11111111) ||
+                (var2[1] != 0b00000000 && var2[1] != 0b11111111) ||
+                (var2[2] != 0b00000000 && var2[2] != 0b11111111))
         {
             GUI->WriteConsole(tr("Erreur commande moteur : arguments"), MainWindow::warning);
             return;
@@ -172,8 +184,11 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var)
         else
         {
             message.append(var[0]);
+            message.append(var2[0]);
             message.append(var[1]);
+            message.append(var2[1]);
             message.append(var[2]);
+            message.append(var2[2]);
         }
         break;
     case NetWork::stopall:
@@ -187,4 +202,19 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var)
     }
     message.append('\n');
     port->write(message);
+}
+
+void NetWork::accelero(QByteArray datas)
+{
+    //not implemented yet
+}
+
+void NetWork::gyro(QByteArray datas)
+{
+    //not implemented yet
+}
+
+void NetWork::pingpong(void)
+{
+    //not implemented yet
 }

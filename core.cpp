@@ -226,5 +226,7 @@ void Core::setPort(void)
 
 void Core::setMoteursSpeed(void)
 {
-    //not implemented yet
+    GUI->ui->VitesseM1->display(((joy->getVitesseAbs() / 144)*100)*cos((((-joy->getAngle()) / 180))));
+    GUI->ui->VitesseM2->display(((joy->getVitesseAbs() / 144)*100)*cos((((-joy->getAngle() + 60) / 180))));
+    GUI->ui->VitesseM3->display(((joy->getVitesseAbs() / 144)*100)*cos((((-joy->getAngle() + 120) / 180))));
 }

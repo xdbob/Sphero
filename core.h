@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QApplication>
+#include <cmath>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "debug.h"
