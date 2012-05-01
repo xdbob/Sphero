@@ -41,6 +41,7 @@ Core::Core(QObject *parent) :
     QObject::connect(GUI, SIGNAL(SQuit()), SLOT(Quitter()));
     QObject::connect(net, SIGNAL(connected(bool)), GUI, SLOT(setConnected(bool)));
     QObject::connect(GUI->getUi()->commandLinkButton, SIGNAL(clicked()), SLOT(setPort()));
+    QObject::connect(joy, SIGNAL(Actu()), SLOT(setMoteursSpeed()));
 
     ComJoyStick(true);
 }
@@ -226,7 +227,7 @@ void Core::setPort(void)
 
 void Core::setMoteursSpeed(void)
 {
-    GUI->getUi()->VitesseM1->display(((joy->getVitesseAbs() / 144)*100)*cos((((-joy->getAngle()) / 180))));
-    GUI->getUi()->VitesseM2->display(((joy->getVitesseAbs() / 144)*100)*cos((((-joy->getAngle() + 60) / 180))));
-    GUI->getUi()->VitesseM3->display(((joy->getVitesseAbs() / 144)*100)*cos((((-joy->getAngle() + 120) / 180))));
+    GUI->getUi()->VitesseM1->display(((static_cast<double>(joy->getVitesseAbs()) / 141)*100)*cos(((static_cast<double>(-joy->getAngle()) / 180))));
+    GUI->getUi()->VitesseM2->display(((static_cast<double>(joy->getVitesseAbs()) / 141)*100)*cos(((static_cast<double>(-joy->getAngle() + 120) / 180))));
+    GUI->getUi()->VitesseM3->display(((static_cast<double>(joy->getVitesseAbs()) / 141)*100)*cos(((static_cast<double>(-joy->getAngle() - 120) / 180))));
 }
