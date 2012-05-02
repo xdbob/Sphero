@@ -227,7 +227,11 @@ void Core::setPort(void)
 
 void Core::setMoteursSpeed(void)
 {
-    GUI->getUi()->VitesseM1->display(((static_cast<double>(joy->getVitesseAbs()) / 141)*100)*cos(((static_cast<double>(-joy->getAngle()) / 180))));
-    GUI->getUi()->VitesseM2->display(((static_cast<double>(joy->getVitesseAbs()) / 141)*100)*cos(((static_cast<double>(-joy->getAngle() + 120) / 180))));
-    GUI->getUi()->VitesseM3->display(((static_cast<double>(joy->getVitesseAbs()) / 141)*100)*cos(((static_cast<double>(-joy->getAngle() - 120) / 180))));
+    int temp(joy->getVitesseAbs());
+    if(temp > 100)
+        temp = 100;
+    double vitesse(static_cast<double>(temp)), angle(static_cast<double>(joy->getAngle()));
+    GUI->getUi()->VitesseM1->display(vitesse * cos(joy->getPI() *(angle + 30.0) / 180.0));
+    GUI->getUi()->VitesseM2->display(vitesse * cos(joy->getPI() *(angle + 150.0) / 180.0));
+    GUI->getUi()->VitesseM3->display(vitesse * cos(joy->getPI() *(angle + 270.0) / 180.0));
 }

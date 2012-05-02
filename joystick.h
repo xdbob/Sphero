@@ -33,6 +33,7 @@ public:
     inline int getAxeY(void);
     inline int getCurseur(void);
     bool isConnected(void);
+    double getPI(void);
     
 signals:
     void AxeX(int);

@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 *  Copyright (C) 2012 DAMHET Antoine                                        *
 *                                                                           *
 *  This program is free software; you can redistribute it and/or modify     *
@@ -133,4 +133,9 @@ bool* JoyStick::getJoyStick(void)
 unsigned int JoyStick::nbJoyStickMax(void)
 {
     return sf::Joystick::Count;
+}
+
+double JoyStick::getPI(void)
+{
+    return pi;
 }
