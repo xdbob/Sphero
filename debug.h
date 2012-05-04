@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDateTime>
+#include <QList>
 #include "joystick.h"
 #include "mainwindow.h"
 
@@ -47,6 +48,7 @@ public slots:
     void setJoyC(int value);
     void setJoyAngle(int value);
     void setJoyNorme(int value);
+    void setVitesses(QList<int> value);
 
 private:
     Ui::Debug *ui;

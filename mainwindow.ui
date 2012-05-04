@@ -311,6 +311,8 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionLancer_la_capture"/>
     <addaction name="actionStopper_la_capture"/>
+    <addaction name="separator"/>
+    <addaction name="actionCurseur"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuJoyStick"/>
@@ -343,6 +345,17 @@ p, li { white-space: pre-wrap; }
   <action name="actionStopper_la_capture">
    <property name="text">
     <string>Stopper la capture</string>
+   </property>
+  </action>
+  <action name="actionCurseur">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Activer les gaz</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
    </property>
   </action>
  </widget>

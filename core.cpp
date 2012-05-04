@@ -227,11 +227,51 @@ void Core::setPort(void)
 
 void Core::setMoteursSpeed(void)
 {
+    //Redressement de la vitesse absolue
     int temp(joy->getVitesseAbs());
     if(temp > 100)
         temp = 100;
+    //Conversion des variables (int => double) & création de variables temporaires
     double vitesse(static_cast<double>(temp)), angle(static_cast<double>(joy->getAngle()));
-    GUI->getUi()->VitesseM1->display(vitesse * cos(joy->getPI() *(angle + 30.0) / 180.0));
-    GUI->getUi()->VitesseM2->display(vitesse * cos(joy->getPI() *(angle + 150.0) / 180.0));
-    GUI->getUi()->VitesseM3->display(vitesse * cos(joy->getPI() *(angle + 270.0) / 180.0));
+
+    QList<double> value;
+    QList<unsigned char> sortie;
+    QList<unsigned char> srt2;
+    value.push_back(vitesse * cos(joy->getPI() * (angle + 30.0) / 180.0));
+    value.push_back(vitesse * cos(joy->getPI() * (angle + 150.0) / 180.0));
+    value.push_back(vitesse * cos(joy->getPI() *(angle + 270.0) / 180.0));
+    if(GUI->getUi()->actionCurseur->isChecked())
+    {
+        for(int i(0);i<3;i++)
+        {
+            double tmp(static_cast<double>(joy->getCurseur()));
+            tmp += 100.0;
+            tmp /= 200.0;
+            value[i] = value[i] * tmp;
+        }
+    }
+    GUI->getUi()->VitesseM1->display(value[0]);
+    GUI->getUi()->VitesseM2->display(value[1]);
+    GUI->getUi()->VitesseM3->display(value[2]);
+    if(d != 0)
+    {
+        QList<int> tmp;
+        for(int i(0);i<3;i++)
+            tmp.push_back(static_cast<int>(fabs(value[i])));
+        d->setVitesses(tmp);
+    }
+    for(int i(0);i<3;i++)
+    {
+        int tmp(static_cast<int>(value[i] * 2.5));
+        if(tmp < 0)
+        {
+            tmp = 0-tmp;
+            srt2.push_back(0b11111111);
+        }
+        else
+            srt2.push_back(0b00000000);
+        sortie.push_back(static_cast<unsigned char>(tmp));
+    }
+    if(net->isConnected())
+        net->sendMessage(NetWork::moteur, sortie, srt2);
 }

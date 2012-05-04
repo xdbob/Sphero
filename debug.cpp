@@ -83,3 +83,10 @@ void Debug::setJoyNorme(int value)
     ui->Norme->display(value);
     ui->progressN->setValue(value);
 }
+
+void Debug::setVitesses(QList<int> value)
+{
+    ui->progressM1->setValue(value[0]);
+    ui->progressM2->setValue(value[1]);
+    ui->progressM3->setValue(value[2]);
+}
