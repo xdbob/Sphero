@@ -34,7 +34,7 @@ public:
     ~NetWork();
     void setGUI(MainWindow* interface);
     bool isConnected(void);
-    QStringList actuPort(void);
+    QStringList actuPort(void);//Retourne tous les ports série (virtuels et réels) de l'ordinateur
     enum {moteur, getGyro, getAccelero, ping, stopall};
     
 signals:
@@ -44,9 +44,10 @@ signals:
     void Pong(void);
     
 public slots:
-    void echoPorts(bool verbose = false);
-    void setPort(QString name);
-    void deco(void);
+    void echoPorts(bool verbose = false);//Affiche tous les ports série
+    void setPort(QString name);//Sélectionner && se connecter au port "name"
+    void deco(void);//Se déconnecter
+    //Envoyer un message au module
     void sendMessage(int commande = NetWork::ping, QList<unsigned char> var = QList<unsigned char>(), QList<unsigned char> var2 = QList<unsigned char>());
 
 private slots:

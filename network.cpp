@@ -58,12 +58,19 @@ void NetWork::echoPorts(bool verbose)
 
 void NetWork::setPort(QString name)
 {
+    //Définition des propiétés du port série
     port = new QextSerialPort(name);
+    //Vitesse (115200 bits par seconde)
     port->setBaudRate(BAUD115200);
+    //Pas de parité
     port->setParity(PAR_NONE);
+    //Pas de controle du flux
     port->setFlowControl(FLOW_OFF);
+    //8 bits par trame
     port->setDataBits(DATA_8);
+    //2 bits pour signaler la fin de la trame
     port->setStopBits(STOP_2);
+    //Port en lecture/écriture
     connect = port->open(QIODevice::ReadWrite);
     emit connected(connect);
     if(!connect)
@@ -79,6 +86,7 @@ void NetWork::setPort(QString name)
 
 void NetWork::closed(bool y)
 {
+    //Si y = false, on déconnecte le port
     if(y == false)
     {
         connect = false;
