@@ -1,3 +1,4 @@
+#ifndef DEBUG
 void PWMmoteur1(int valeur, int sens)//0 = 0%, 255 = 100%; 0 = courant positif, -1 = courant négatif
 {
   analogWrite(PWM1, valeur);
@@ -36,3 +37,11 @@ void PWMmoteur3(int valeur, int sens)//0 = 0%, 255 = 100%; 0 = courant positif, 
     digitalWrite(sens3, HIGH);
   }
 }
+#elif
+void PWMmoteur1(int valeur, int sens){
+  analogWrite(13, valeur);
+}
+void PWMmoteur2(int valeur, int sens){}
+void PWMmoteur3(int valeur, int sens){}
+#endif
+

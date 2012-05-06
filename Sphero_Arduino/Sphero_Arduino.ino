@@ -7,6 +7,7 @@ int PWM3 = 6;
 int sens1 = 0;
 int sens2 = 1;
 int sens3 = 2;
+int LED = 13;
 //Analogiques
 int AcceleroX = 2;
 int AcceleroY = 3;
@@ -28,10 +29,45 @@ void setup() {
   pinMode(PWM1, OUTPUT);
   pinMode(PWM2, OUTPUT);
   pinMode(PWM3, OUTPUT);
-  
+  pinMode(LED, OUTPUT);
 }  
+  int ledState = LOW;
+  long previousMillis = 0;
+  long interval = 1000;
+  
+  char temp;
   
 void loop () {
-  Serial.println("la connection fonctionne !");
-  delay(1000);
+  /*while(!isConnected())
+  {
+    continue;
+  }*/
+  while(true)
+  {
+    /*
+    unsigned long currentMillis = millis();
+  
+   if(currentMillis - previousMillis > interval) {
+     previousMillis = currentMillis;
+     if (ledState == LOW)
+       ledState = HIGH;
+     else
+       ledState = LOW;
+     digitalWrite(13, ledState);
+   }
+   */
+    if(Serial.available() > 0)
+    {
+      temp = Serial.read();
+      if(temp != 0b01010010)
+      {
+        Serial.println("marche pas...");
+        Serial.println(temp, BIN);
+        Serial.flush();
+        continue;
+      }
+      getCommande();
+    }
+    
+  }
 }  
