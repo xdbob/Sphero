@@ -91,6 +91,8 @@ void Core::commande(QString instruction)
         instruction.remove(0, 9);
         net->setPort(instruction);
     }
+    else if(instruction == "blink")
+        net->sendMessage(NetWork::blink);
     else if(instruction == "joy start")
         ComJoyStick(true);
     else if(instruction == "joy stop")

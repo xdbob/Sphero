@@ -118,12 +118,13 @@ void NetWork::getMessage(void)
         if(!bytesReceived.startsWith(0b01011000))
         {
             GUI->WriteConsole(tr("bug"));
+            GUI->WriteConsole(QString(bytesReceived).toAscii(), MainWindow::warning);
             bytesReceived.clear();
             return;
         }
         bytesReceived.remove(0, 1);
         bytesReceived.remove(bytesReceived.size() - 1, 1);
-        if(bytesReceived.startsWith(0b00110011))
+        if(bytesReceived.startsWith(0b11001100))
             emit Pong();
         else if(bytesReceived.startsWith(0b01101101))
             accelero(bytesReceived);
@@ -201,6 +202,10 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned
         break;
     case NetWork::stopall:
         octet = 0b01110111;
+        message.append(octet);
+        break;
+    case NetWork::blink:
+        octet = 0b01010101;
         message.append(octet);
         break;
     default:

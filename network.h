@@ -35,7 +35,7 @@ public:
     void setGUI(MainWindow* interface);
     bool isConnected(void);
     QStringList actuPort(void);//Retourne tous les ports série (virtuels et réels) de l'ordinateur
-    enum {moteur, getGyro, getAccelero, ping, stopall};
+    enum {moteur, getGyro, getAccelero, ping, stopall, blink};
     
 signals:
     void connected(bool);
