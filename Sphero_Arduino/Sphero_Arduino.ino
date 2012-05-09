@@ -4,9 +4,9 @@ int RESET = 7;
 int PWM1 = 3;
 int PWM2 = 5;
 int PWM3 = 6;
-int sens1 = 0;
-int sens2 = 1;
-int sens3 = 2;
+int sens1 = 9;
+int sens2 = 10;
+int sens3 = 11;
 int LED = 13;
 //Analogiques
 int AcceleroX = 2;
@@ -44,20 +44,9 @@ void loop () {
   }*/
   while(true)
   {
-    /*
-    unsigned long currentMillis = millis();
-  
-   if(currentMillis - previousMillis > interval) {
-     previousMillis = currentMillis;
-     if (ledState == LOW)
-       ledState = HIGH;
-     else
-       ledState = LOW;
-     digitalWrite(13, ledState);
-   }
-   */
     if(Serial.available() > 0)
     {
+      delay(3);
       temp = Serial.read();
       if(temp != 0b01010010)
       {

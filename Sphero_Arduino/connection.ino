@@ -24,9 +24,8 @@ void setMoteurs()
 {
   unsigned char moteurs[3];
   int sens[3];
-  int i;
   unsigned char temp = 0b00000000;
-  for(i=0; i<3; i++)
+  for(int i(0); i<3; i++)
   {
     moteurs[i] = temp | Serial.read();
     if(Serial.read() == 0b11111111)
@@ -43,8 +42,8 @@ void setMoteurs()
     return;
   }
   PWMmoteur1(moteurs[0], sens[0]);
-  PWMmoteur1(moteurs[1], sens[1]);
-  PWMmoteur1(moteurs[2], sens[2]);
+  PWMmoteur2(moteurs[1], sens[1]);
+  PWMmoteur3(moteurs[2], sens[2]);
 }
 
 void stopAll()
@@ -83,25 +82,18 @@ boolean isConnected(void)
 
 void clignote()
 {
+  unsigned char temp = 0b00000000;
+  temp = temp | Serial.read();
   if(Serial.read() != '\n')
   {
-    for(int i(0);i<2;i++)
-    {
-      digitalWrite(LED, HIGH);
-      delay(1000);
-      digitalWrite(LED, LOW);
-    }
     return;
   }
-  digitalWrite(LED, HIGH);
-  delay(2000);
-  digitalWrite(LED, LOW);
+  analogWrite(LED, temp);
   Serial.flush();
 }
 
 void getCommande(void)
 {
-  delay(30);
   char message = Serial.read();
   switch(message)
   {
