@@ -111,7 +111,11 @@ int JoyStick::getAngle(void)
     return static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);
 }
 
-void JoyStick::stop(void){boucle = false;}
+void JoyStick::stop(void)
+{
+    boucle = false;
+    msleep(60);
+}
 
 bool* JoyStick::getJoyStick(void)
 {

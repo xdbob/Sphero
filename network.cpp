@@ -80,6 +80,7 @@ void NetWork::setPort(QString name)
         QObject::connect(port, SIGNAL(readyRead()), SLOT(getMessage()));
         QObject::connect(port, SIGNAL(dsrChanged(bool)), SLOT(closed(bool)));
         GUI->WriteConsole(tr("Connection avec le port ") + name + tr(" effectuée"), MainWindow::reseau);
+
     }
 
 }
@@ -117,8 +118,8 @@ void NetWork::getMessage(void)
     {
         if(!bytesReceived.startsWith(0b01011000))
         {
-            GUI->WriteConsole(tr("bug"));
-            GUI->WriteConsole(QString(bytesReceived).toAscii(), MainWindow::warning);
+            GUI->WriteConsole(tr("bug"), MainWindow::warning);
+            GUI->WriteConsole(QString(bytesReceived).toUtf8(), MainWindow::warning);
             bytesReceived.clear();
             return;
         }
@@ -157,6 +158,7 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned
     if(!isConnected())
     {
         GUI->WriteConsole(tr("Impossible d'envoyer le message, le module n'est pas connecté"), MainWindow::reseau);
+        return;
     }
     QByteArray message;
     unsigned char octet(0b01010010);
@@ -206,7 +208,13 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned
         break;
     case NetWork::blink:
         octet = 0b01010101;
+        if(var.size() != 1)
+        {
+            GUI->WriteConsole(tr("Erreur Blink : arguments"), MainWindow::warning);
+            return;
+        }
         message.append(octet);
+        message.append(var[0]);
         break;
     default:
         GUI->WriteConsole(tr("Erreur de commande"), MainWindow::warning);

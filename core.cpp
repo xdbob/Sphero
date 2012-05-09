@@ -49,6 +49,7 @@ Core::Core(QObject *parent) :
 Core::~Core(void)
 {
     joy->stop();
+    net->quit();
     delete GUI;
     if(d != 0)
         delete d;
@@ -86,13 +87,27 @@ void Core::commande(QString instruction)
         else
             net->echoPorts();
     }
-    else if(instruction.startsWith("port set"))
+    else if(instruction.startsWith("port set "))
     {
         instruction.remove(0, 9);
         net->setPort(instruction);
     }
-    else if(instruction == "blink")
-        net->sendMessage(NetWork::blink);
+    else if(instruction.startsWith("blink "))
+    {
+        instruction.remove(0, 6);
+        bool ok;
+        int temp(instruction.toInt(&ok, 10));
+        if(!ok)
+            GUI->WriteConsole(instruction + tr(" n'est pas un nombre"));
+        else if(temp < 0 || temp > 255)
+            GUI->WriteConsole(instruction + tr(" n'est pas compris entre 0 et 255"));
+        else
+        {
+            QList<unsigned char> l;
+            l.append(static_cast<unsigned char>(temp));
+            net->sendMessage(NetWork::blink, l);
+        }
+    }
     else if(instruction == "joy start")
         ComJoyStick(true);
     else if(instruction == "joy stop")

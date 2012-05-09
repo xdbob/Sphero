@@ -29,9 +29,9 @@ public:
     explicit JoyStick(QObject *parent = 0);
     static bool* getJoyStick(void);
     static unsigned int nbJoyStickMax(void);
-    inline int getAxeX(void);
-    inline int getAxeY(void);
-    inline int getCurseur(void);
+    int getAxeX(void);
+    int getAxeY(void);
+    int getCurseur(void);
     bool isConnected(void);
     double getPI(void);
     
