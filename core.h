@@ -57,6 +57,7 @@ private slots:
 
     void setMoteursSpeed(void);
 
+
 private:
     MainWindow* GUI;
     Debug* d;

@@ -22,6 +22,7 @@ NetWork::NetWork(QObject *parent) :
 {
     port = 0;
     connect = false;
+    logging = false;
 }
 
 NetWork::~NetWork()
@@ -30,29 +31,24 @@ NetWork::~NetWork()
         delete port;
 }
 
-void NetWork::setGUI(MainWindow *interface)
-{
-    GUI = interface;
-}
-
 void NetWork::echoPorts(bool verbose)
 {
     QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-    GUI->WriteConsole(tr("Liste des ports"));
+    emit Write(tr("Liste des ports"));
     for (int i = 0; i < ports.size(); i++)
     {
         if(verbose)
-            GUI->WriteConsole(tr("Nom du port :") + ports.at(i).portName, MainWindow::reseau);
-        GUI->WriteConsole(tr("Nom du port (friendName) : ") + ports.at(i).friendName, MainWindow::reseau);
+            emit Write(tr("Nom du port : ") + ports.at(i).portName);
+        emit Write(tr("Nom du port (friendName) : ") + ports.at(i).friendName);
         if(verbose)
-            GUI->WriteConsole(tr("Adresse physique : ") + ports.at(i).physName, MainWindow::reseau);
-        GUI->WriteConsole(tr("Type : ") + ports.at(i).enumName, MainWindow::reseau);
+            emit Write(tr("Adresse physique : ") + ports.at(i).physName);
+        emit Write(tr("Type : ") + ports.at(i).enumName);
         if(verbose)
         {
-            GUI->WriteConsole("vendor ID:" + QString::number(ports.at(i).vendorID, 16), MainWindow::reseau);
-            GUI->WriteConsole("product ID:" + QString::number(ports.at(i).productID, 16), MainWindow::reseau);
+            emit Write("vendor ID:" + QString::number(ports.at(i).vendorID, 16));
+            emit Write("product ID:" + QString::number(ports.at(i).productID, 16));
         }
-        GUI->WriteConsole("===================================");
+        emit Write("===================================");
     }
 }
 
@@ -74,12 +70,12 @@ void NetWork::setPort(QString name)
     connect = port->open(QIODevice::ReadWrite);
     emit connected(connect);
     if(!connect)
-        GUI->WriteConsole(tr("Impossible de se connecter au port ") + name, MainWindow::warning);
+        emit Err(tr("Impossible de se connecter au port ") + name);
     else
     {
         QObject::connect(port, SIGNAL(readyRead()), SLOT(getMessage()));
         QObject::connect(port, SIGNAL(dsrChanged(bool)), SLOT(closed(bool)));
-        GUI->WriteConsole(tr("Connection avec le port ") + name + tr(" effectuée"), MainWindow::reseau);
+        emit Write(tr("Connection avec le port ") + name + tr(" effectuée"));
 
     }
 
@@ -94,7 +90,7 @@ void NetWork::closed(bool y)
         emit connected(false);
         delete port;
         port = 0;
-        GUI->WriteConsole(tr("Fin de la connection"), MainWindow::reseau);
+        emit Write(tr("Fin de la connection"));
     }
 }
 
@@ -106,20 +102,16 @@ void NetWork::getMessage(void)
     int a = port->bytesAvailable();
     bytes.resize(a);
     port->read(bytes.data(), bytes.size());
-    //qDebug() << "bytes read:" << bytes.size();
 
     bytesReceived.append(bytes);
 
-    // only do input if all of it has been received.
-    // without this the serial port transports line of messages
-    // with only 3 or 4 bytes at a time
-    //if(bytes.contains('\n'))
+
     if(bytesReceived.endsWith('\n'))
     {
         if(!bytesReceived.startsWith(0b01011000))
         {
-            GUI->WriteConsole(tr("bug"), MainWindow::warning);
-            GUI->WriteConsole(QString(bytesReceived).toUtf8(), MainWindow::warning);
+            emit Warning(tr("bug"));
+            emit Warning(QString::fromAscii(bytesReceived));
             bytesReceived.clear();
             return;
         }
@@ -131,7 +123,8 @@ void NetWork::getMessage(void)
             accelero(bytesReceived);
         else if(bytesReceived.startsWith(0b01101101))
             gyro(bytesReceived);
-        GUI->WriteConsole(QString::fromAscii(bytesReceived), MainWindow::reseau);
+        if(logging)
+            emit log("#LOG NET#" + QString::fromAscii(bytesReceived) + "#LOG NET#");
         bytesReceived.clear();
     }
 }
@@ -157,7 +150,7 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned
 {
     if(!isConnected())
     {
-        GUI->WriteConsole(tr("Impossible d'envoyer le message, le module n'est pas connecté"), MainWindow::reseau);
+        emit Err(tr("Impossible d'envoyer le message, le module n'est pas connecté"));
         return;
     }
     QByteArray message;
@@ -182,14 +175,14 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned
         message.append(octet);
         if(var.size() != 3 || var2.size() != 3)
         {
-            GUI->WriteConsole(tr("Erreur commande moteur : arguments"), MainWindow::warning);
+            emit Err(tr("Erreur commande moteur : arguments"));
             return;
         }
         else if((var2[0] != 0b00000000 && var2[0] != 0b11111111) ||
                 (var2[1] != 0b00000000 && var2[1] != 0b11111111) ||
                 (var2[2] != 0b00000000 && var2[2] != 0b11111111))
         {
-            GUI->WriteConsole(tr("Erreur commande moteur : arguments"), MainWindow::warning);
+            emit Err(tr("Erreur commande moteur : arguments"));
             return;
         }
         else
@@ -210,14 +203,14 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned
         octet = 0b01010101;
         if(var.size() != 1)
         {
-            GUI->WriteConsole(tr("Erreur Blink : arguments"), MainWindow::warning);
+            emit Err(tr("Erreur Blink : arguments"));
             return;
         }
         message.append(octet);
         message.append(var[0]);
         break;
     default:
-        GUI->WriteConsole(tr("Erreur de commande"), MainWindow::warning);
+        emit Warning(tr("Réseau : Commande inconnue"));
         return;
         break;
     }

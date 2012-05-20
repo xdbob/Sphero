@@ -26,7 +26,6 @@ Core::Core(QObject *parent) :
     net = new NetWork;
     GUI = new MainWindow;
     GUI->show();
-    net->setGUI(GUI);
 #ifdef QT_DEBUG
     DebugInit();
 #endif
@@ -42,6 +41,9 @@ Core::Core(QObject *parent) :
     QObject::connect(net, SIGNAL(connected(bool)), GUI, SLOT(setConnected(bool)));
     QObject::connect(GUI->getUi()->commandLinkButton, SIGNAL(clicked()), SLOT(setPort()));
     QObject::connect(joy, SIGNAL(Actu()), SLOT(setMoteursSpeed()));
+    QObject::connect(net, SIGNAL(Write(QString)), GUI, SLOT(WCN(QString)));
+    QObject::connect(net, SIGNAL(Err(QString)), GUI, SLOT(WCW(QString)));
+    QObject::connect(net, SIGNAL(Warning(QString)), GUI, SLOT(WCI(QString)));
 
     ComJoyStick(true);
 }
@@ -151,6 +153,7 @@ void Core::DebugInit(void)
         QObject::connect(joy, SIGNAL(Curseur(int)), d, SLOT(setJoyC(int)));
         QObject::connect(joy, SIGNAL(Angle(int)), d, SLOT(setJoyAngle(int)));
         QObject::connect(joy, SIGNAL(Norme(int)), d, SLOT(setJoyNorme(int)));
+        QObject::connect(net, SIGNAL(log(QString)), d, SLOT(log(QString)));
     }
     else
         GUI->WriteConsole(tr("Module de debug déjà créé"), MainWindow::warning);

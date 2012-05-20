@@ -32,7 +32,6 @@ class NetWork : public QThread
 public:
     explicit NetWork(QObject *parent = 0);
     ~NetWork();
-    void setGUI(MainWindow* interface);
     bool isConnected(void);
     QStringList actuPort(void);//Retourne tous les ports série (virtuels et réels) de l'ordinateur
     enum {moteur, getGyro, getAccelero, ping, stopall, blink};
@@ -42,6 +41,10 @@ signals:
     void Gyroscope(QList<int>);
     void Acceleroscope(QList<int>);
     void Pong(void);
+    void Write(QString);
+    void Err(QString);
+    void Warning(QString);
+    void log(QString);
     
 public slots:
     void echoPorts(bool verbose = false);//Affiche tous les ports série
@@ -56,12 +59,12 @@ private slots:
     void pingpong(void);
 
 private:
-    MainWindow* GUI;
     QextSerialPort* port;
     bool connect;
     QByteArray bytesReceived;
     inline void gyro(QByteArray datas);
     inline void accelero(QByteArray datas);
+    bool logging;
 };
 
 #endif // NETWORK_H

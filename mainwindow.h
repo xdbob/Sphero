@@ -35,18 +35,24 @@ public:
     ~MainWindow(void);
 
     enum{important, warning, standard, reseau, user};//Priorité (message console)
+    void WriteConsole(QString texte, int priority = MainWindow::standard);//Ecrire dans la console
     Ui::MainWindow *getUi();
 
 protected:
     void closeEvent(QCloseEvent *event);
 
 public slots:
-    void WriteConsole(QString texte, int priority = MainWindow::standard);//Ecrire dans la console
     void CleanConsole(void);
     void Message(QString texte);//Ecrire un message pour l'utilisateur
     void setEcho(bool state);//Défini si une commande est recopiée dans la console
     void setConnected(bool etat);
     void moo(void);
+
+    //Raccourcis => Ecrire console(Signals/slots)
+    void WCN(QString texte);
+    void WCS(QString texte);
+    void WCW(QString texte);
+    void WCI(QString texte);
 
 private slots:
     void on_ConsoleInput_returnPressed(void);//Validation d'une commande console

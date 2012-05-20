@@ -120,3 +120,8 @@ void MainWindow::moo()
 }
 
 Ui::MainWindow *MainWindow::getUi(){return ui;}
+
+void MainWindow::WCI(QString texte){WriteConsole(texte, MainWindow::important);}
+void MainWindow::WCN(QString texte){WriteConsole(texte, MainWindow::reseau);}
+void MainWindow::WCS(QString texte){WriteConsole(texte);}
+void MainWindow::WCW(QString texte){WriteConsole(texte, MainWindow::warning);}
