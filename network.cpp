@@ -23,12 +23,17 @@ NetWork::NetWork(QObject *parent) :
     port = 0;
     connect = false;
     logging = false;
+    time = new QTimer(this);
+    init = false;
+    retry = false;
+    QObject::connect(time, SIGNAL(timeout()), SLOT(timeout()));
 }
 
 NetWork::~NetWork()
 {
     if(port != 0)
         delete port;
+    delete time;
 }
 
 void NetWork::echoPorts(bool verbose)
@@ -75,8 +80,8 @@ void NetWork::setPort(QString name)
     {
         QObject::connect(port, SIGNAL(readyRead()), SLOT(getMessage()));
         QObject::connect(port, SIGNAL(dsrChanged(bool)), SLOT(closed(bool)));
-        emit Write(tr("Connection avec le port ") + name + tr(" effectuée"));
-
+        emit Write(tr("Connection avec le port ") + name + tr(" en cours ..."));
+        sendMessage();
     }
 
 }
@@ -91,6 +96,7 @@ void NetWork::closed(bool y)
         delete port;
         port = 0;
         emit Write(tr("Fin de la connection"));
+        init = false;
     }
 }
 
@@ -110,15 +116,26 @@ void NetWork::getMessage(void)
     {
         if(!bytesReceived.startsWith(0b01011000))
         {
-            emit Warning(tr("bug"));
-            emit Warning(QString::fromAscii(bytesReceived));
+            if(init)
+            {
+                emit Warning(tr("bug"));
+                emit Warning(QString::fromAscii(bytesReceived));
+            }
             bytesReceived.clear();
             return;
         }
         bytesReceived.remove(0, 1);
         bytesReceived.remove(bytesReceived.size() - 1, 1);
         if(bytesReceived.startsWith(0b11001100))
+        {
             emit Pong();
+            time->stop();
+            if(!init)
+            {
+                init = true;
+                emit Write(tr("Connection accomplie"));
+            }
+        }
         else if(bytesReceived.startsWith(0b01101101))
             accelero(bytesReceived);
         else if(bytesReceived.startsWith(0b01101101))
@@ -161,6 +178,7 @@ void NetWork::sendMessage(int commande, QList<unsigned char> var, QList<unsigned
     case NetWork::ping:
         octet = 0b11001100;
         message.append(octet);
+        time->start(500);
         break;
     case NetWork::getAccelero:
         octet = 0b10110110;
@@ -231,4 +249,20 @@ void NetWork::gyro(QByteArray datas)
 void NetWork::pingpong(void)
 {
     //not implemented yet
+}
+
+void NetWork::timeout(void)
+{
+    emit Err(tr("ping timeout : la connection avec avec le module à échouée"));
+    if(!retry)
+    {
+        emit Warning(tr("Tentative de reconnection"));
+        time->stop();
+        sendMessage();
+    }
+    else
+    {
+        deco();
+        time->stop();
+    }
 }

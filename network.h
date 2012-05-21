@@ -21,6 +21,7 @@
 #include <QThread>
 #include <QStringList>
 #include <QList>
+#include <QTimer>
 #include "qextserialport.h"
 #include "qextserialenumerator.h"
 #include "mainwindow.h"
@@ -57,6 +58,7 @@ private slots:
     void getMessage(void);
     void closed(bool y);
     void pingpong(void);
+    void timeout(void);
 
 private:
     QextSerialPort* port;
@@ -65,6 +67,9 @@ private:
     inline void gyro(QByteArray datas);
     inline void accelero(QByteArray datas);
     bool logging;
+    QTimer* time;
+    bool init;
+    bool retry;
 };
 
 #endif // NETWORK_H
