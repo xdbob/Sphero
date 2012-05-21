@@ -21,6 +21,7 @@
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QString>
 
 namespace Ui {
     class MainWindow;
@@ -36,7 +37,6 @@ public:
 
     enum{important, warning, standard, reseau, user};//Priorité (message console)
     void WriteConsole(QString texte, int priority = MainWindow::standard);//Ecrire dans la console
-    Ui::MainWindow *getUi();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -47,6 +47,10 @@ public slots:
     void setEcho(bool state);//Défini si une commande est recopiée dans la console
     void setConnected(bool etat);
     void moo(void);
+    void actuPorts(QStringList ports);
+    QString CurrentSelectedPort(void);
+    bool isCurseur(void);
+    void echoVitesses(QList<double> liste);
 
     //Raccourcis => Ecrire console(Signals/slots)
     void WCN(QString texte);
@@ -61,12 +65,14 @@ private slots:
     void LJoyStop(void);
 
     void quit(void);
+    void co(void);//Emmet le signal "connect"
 
 signals:
     void ConsoleInput(QString);//Commande lancée dans la console
     void Written(QString);//Quelque chose d'écrit dans la console
     void ComJoy(bool);//Commande capture => JoyStick
     void SQuit(void);
+    void connect(void);
 
 private:
     Ui::MainWindow *ui;

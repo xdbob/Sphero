@@ -25,7 +25,7 @@
 #include <QDateTime>
 #include <QList>
 #include "joystick.h"
-#include "mainwindow.h"
+#include "ui_debug.h"
 
 namespace Ui {
 class Debug;

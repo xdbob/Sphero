@@ -27,13 +27,13 @@ class JoyStick : public QThread
     Q_OBJECT
 public:
     explicit JoyStick(QObject *parent = 0);
-    static bool* getJoyStick(void);
+    static bool* getJoyStick(void);//Retourne l'état de tous les joysticks connectables au système
     static unsigned int nbJoyStickMax(void);
     int getAxeX(void);
     int getAxeY(void);
     int getCurseur(void);
     bool isConnected(void);
-    double getPI(void);
+    double getPI(void);//Retourne PI
     
 signals:
     void AxeX(int);

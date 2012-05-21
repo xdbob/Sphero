@@ -30,7 +30,7 @@ Core::Core(QObject *parent) :
     DebugInit();
 #endif
 
-    actuPorts(net->actuPort());
+    GUI->actuPorts(net->actuPort());
 
     //Connection des signaux et des slots
     QObject::connect(GUI, SIGNAL(ConsoleInput(QString)), SLOT(commande(QString)));
@@ -39,7 +39,7 @@ Core::Core(QObject *parent) :
     QObject::connect(GUI, SIGNAL(ComJoy(bool)), SLOT(ComJoyStick(bool)));
     QObject::connect(GUI, SIGNAL(SQuit()), SLOT(Quitter()));
     QObject::connect(net, SIGNAL(connected(bool)), GUI, SLOT(setConnected(bool)));
-    QObject::connect(GUI->getUi()->commandLinkButton, SIGNAL(clicked()), SLOT(setPort()));
+    QObject::connect(GUI, SIGNAL(connect()), SLOT(setPort()));
     QObject::connect(joy, SIGNAL(Actu()), SLOT(setMoteursSpeed()));
     QObject::connect(net, SIGNAL(Write(QString)), GUI, SLOT(WCN(QString)));
     QObject::connect(net, SIGNAL(Err(QString)), GUI, SLOT(WCW(QString)));
@@ -217,12 +217,6 @@ void Core::getJoyState(void)
 void Core::CaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick Lancée"), MainWindow::important);}
 void Core::SCaptureJoy(void){GUI->WriteConsole(tr("Capture du Joystick Stoppée"), MainWindow::important);}
 
-void Core::actuPorts(QStringList prts)
-{
-    GUI->getUi()->comboBox->clear();
-    GUI->getUi()->comboBox->addItems(prts);
-}
-
 void Core::setPort(void)
 {
     if(net->isConnected())
@@ -230,17 +224,15 @@ void Core::setPort(void)
         net->deco();
         if(!net->isConnected())
         {
-            GUI->getUi()->comboBox->setEnabled(true);
-            GUI->getUi()->commandLinkButton->setText(tr("Connecter"));
+            GUI->setConnected(false);
         }
     }
     else
     {
-        net->setPort(GUI->getUi()->comboBox->currentText());
+        net->setPort(GUI->CurrentSelectedPort());
         if(net->isConnected())
         {
-            GUI->getUi()->comboBox->setEnabled(false);
-            GUI->getUi()->commandLinkButton->setText(tr("Déonnecter"));
+            GUI->setConnected(true);
         }
     }
 }
@@ -257,10 +249,19 @@ void Core::setMoteursSpeed(void)
     QList<double> value;
     QList<unsigned char> sortie;
     QList<unsigned char> srt2;
-    value.push_back(vitesse * cos(joy->getPI() * (angle + 30.0) / 180.0));
-    value.push_back(vitesse * cos(joy->getPI() * (angle + 150.0) / 180.0));
-    value.push_back(vitesse * cos(joy->getPI() *(angle + 270.0) / 180.0));
-    if(GUI->getUi()->actionCurseur->isChecked())
+    if(angle == 90.0)
+    {
+        value.push_back(vitesse * 0.50);
+        value.push_back(vitesse * 0.50);
+        value.push_back(-vitesse);
+    }
+    else
+    {
+        value.push_back(vitesse * cos(joy->getPI() * (angle + 30.0) / 180.0));
+        value.push_back(vitesse * cos(joy->getPI() * (angle + 150.0) / 180.0));
+        value.push_back(vitesse * cos(joy->getPI() *(angle + 270.0) / 180.0));
+    }
+    if(GUI->isCurseur())
     {
         for(int i(0);i<3;i++)
         {
@@ -270,9 +271,7 @@ void Core::setMoteursSpeed(void)
             value[i] = value[i] * tmp;
         }
     }
-    GUI->getUi()->VitesseM1->display(value[0]);
-    GUI->getUi()->VitesseM2->display(value[1]);
-    GUI->getUi()->VitesseM3->display(value[2]);
+    GUI->echoVitesses(value);
     if(d != 0)
     {
         QList<int> tmp;

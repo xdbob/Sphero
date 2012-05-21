@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     QObject::connect(ui->actionLancer_la_capture, SIGNAL(triggered()), SLOT(LJoyStart()));
     QObject::connect(ui->actionStopper_la_capture, SIGNAL(triggered()), SLOT(LJoyStop()));
+    QObject::connect(ui->commandLinkButton, SIGNAL(clicked()), SLOT(co()));
 }
 
 MainWindow::~MainWindow(void)
@@ -93,10 +94,17 @@ void MainWindow::setEcho(bool state)
 void MainWindow::setConnected(bool etat)
 {
     if(etat)
+    {
         Message(tr("Connecté"));
+        ui->commandLinkButton->setText(tr("Déconnecter"));
+    }
     else
+    {
         Message(tr("Déconnecté"));
+        ui->commandLinkButton->setText(tr("Connecter"));
+    }
 
+    ui->comboBox->setEnabled(!etat);
     ui->VitesseM1->setEnabled(etat);
     ui->VitesseM2->setEnabled(etat);
     ui->VitesseM3->setEnabled(etat);
@@ -119,9 +127,29 @@ void MainWindow::moo()
     QMessageBox::information(this, "Easter Egg", "              (___)\n              (oo)\n    /------\\/\n  / |          ||\n*  /\\-----/\\\n   ~~      ~~\n...\"Have you mooed today?\"...");
 }
 
-Ui::MainWindow *MainWindow::getUi(){return ui;}
+void MainWindow::actuPorts(QStringList ports)
+{
+    ui->comboBox->clear();
+    ui->comboBox->addItems(ports);
+}
+
+bool MainWindow::isCurseur(void){return ui->actionCurseur->isChecked();}
 
 void MainWindow::WCI(QString texte){WriteConsole(texte, MainWindow::important);}
 void MainWindow::WCN(QString texte){WriteConsole(texte, MainWindow::reseau);}
 void MainWindow::WCS(QString texte){WriteConsole(texte);}
 void MainWindow::WCW(QString texte){WriteConsole(texte, MainWindow::warning);}
+void MainWindow::co(void){emit connect();}
+
+QString MainWindow::CurrentSelectedPort(void){return ui->comboBox->currentText();}
+
+void MainWindow::echoVitesses(QList<double> liste)
+{
+
+    if(liste.size() != 3)
+        return;
+    ui->VitesseM1->display(liste[0]);
+    ui->VitesseM2->display(liste[1]);
+    ui->VitesseM3->display(liste[2]);
+
+}

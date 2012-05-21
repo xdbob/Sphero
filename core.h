@@ -22,6 +22,7 @@
 #include <QApplication>
 #include <cmath>
 #include <QList>
+#include <QStringList>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "debug.h"
@@ -52,7 +53,6 @@ private slots:
     void ComJoyStick(bool etat);//Lancement/Arrêt de la capture du JoyStick
     void getJoyState(void);
 
-    void actuPorts(QStringList prts);
     void setPort(void);
 
     void setMoteursSpeed(void);
