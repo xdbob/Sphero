@@ -78,6 +78,7 @@ void NetWork::setPort(QString name)
         emit Err(tr("Impossible de se connecter au port ") + name);
     else
     {
+        retry = false;
         QObject::connect(port, SIGNAL(readyRead()), SLOT(getMessage()));
         QObject::connect(port, SIGNAL(dsrChanged(bool)), SLOT(closed(bool)));
         emit Write(tr("Connection avec le port ") + name + tr(" en cours ..."));
@@ -134,6 +135,7 @@ void NetWork::getMessage(void)
             {
                 init = true;
                 emit Write(tr("Connection accomplie"));
+                retry = false;
             }
         }
         else if(bytesReceived.startsWith(0b01101101))
@@ -259,6 +261,7 @@ void NetWork::timeout(void)
         emit Warning(tr("Tentative de reconnection"));
         time->stop();
         sendMessage();
+        retry = true;
     }
     else
     {
