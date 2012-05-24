@@ -35,7 +35,7 @@ void JoyStick::run(void)
     {
         //Actualisation en temps réel des différents Axes
         //Envoi du signal correspondant en cas de changement
-        msleep(20);
+        msleep(50);
         update();
         emit AxeX(getAxeX());
         emit AxeY(getAxeY());
