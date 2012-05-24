@@ -249,7 +249,7 @@ void Core::setMoteursSpeed(void)
     QList<double> value;
     QList<unsigned char> sortie;
     QList<unsigned char> srt2;
-    if(joy->getAxeY() == 0)
+    if(joy->getAxeY() == 0 && joy->getAxeX() <= 0)
     {
         value.push_back(vitesse * 0.50);
         value.push_back(vitesse * 0.50);
