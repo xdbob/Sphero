@@ -88,7 +88,7 @@ void clignote()
   {
     return;
   }
-  analogWrite(LED, temp);
+  Serial.println("blink ... OK");
   Serial.flush();
 }
 

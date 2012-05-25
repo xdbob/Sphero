@@ -4,10 +4,12 @@ int RESET = 7;
 int PWM1 = 3;
 int PWM2 = 5;
 int PWM3 = 6;
-int sens1 = 9;
-int sens2 = 10;
-int sens3 = 11;
-int LED = 13;
+int sens1H1 = 8;
+int sens1H2 = 9;
+int sens2H1 = 10;
+int sens2H2 = 11;
+int sens3H1 = 12;
+int sens3H2 = 13;
 //Analogiques
 int AcceleroX = 2;
 int AcceleroY = 3;
@@ -23,17 +25,16 @@ void setup() {
   digitalWrite(RESET, LOW);
   delay(2000);
   
-  pinMode(sens1, OUTPUT);
-  pinMode(sens2, OUTPUT);
-  pinMode(sens3, OUTPUT);
+  pinMode(sens1H1, OUTPUT);
+  pinMode(sens2H1, OUTPUT);
+  pinMode(sens3H1, OUTPUT);
+  pinMode(sens1H2, OUTPUT);
+  pinMode(sens2H2, OUTPUT);
+  pinMode(sens3H2, OUTPUT);
   pinMode(PWM1, OUTPUT);
   pinMode(PWM2, OUTPUT);
   pinMode(PWM3, OUTPUT);
-  pinMode(LED, OUTPUT);
 }  
-  int ledState = LOW;
-  long previousMillis = 0;
-  long interval = 1000;
   
   char temp;
   
