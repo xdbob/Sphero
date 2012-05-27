@@ -94,6 +94,12 @@ void Core::commande(QString instruction)
         instruction.remove(0, 9);
         net->setPort(instruction);
     }
+    else if(instruction == "blink")
+    {
+        QList<unsigned char> l;
+        l.append(static_cast<unsigned char>(0));
+        net->sendMessage(NetWork::blink, l);
+    }
     else if(instruction.startsWith("blink "))
     {
         instruction.remove(0, 6);
