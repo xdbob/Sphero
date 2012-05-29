@@ -50,6 +50,7 @@ public slots:
     void actuPorts(QStringList ports);
     QString CurrentSelectedPort(void);
     bool isCurseur(void);
+    bool isSimulating(void);
     void echoVitesses(QList<double> liste);
 
     //Raccourcis => Ecrire console(Signals/slots)

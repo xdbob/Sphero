@@ -105,11 +105,7 @@ int JoyStick::getVitesseAbs(void)
     int X(getAxeX()), Y(getAxeY());
     return static_cast<int>(sqrt(Y*Y + X*X ));
 }
-int JoyStick::getAngle(void)
-{
-    int X(getAxeX()), Y(getAxeY());
-    return static_cast<int>(((2*atan((-Y)/(X+sqrt(Y*Y+X*X))))+pi/2)*180/pi);
-}
+int JoyStick::getAngle(void){return angle();}
 
 void JoyStick::stop(void)
 {

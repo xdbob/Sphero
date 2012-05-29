@@ -134,6 +134,7 @@ void MainWindow::actuPorts(QStringList ports)
 }
 
 bool MainWindow::isCurseur(void){return ui->actionCurseur->isChecked();}
+bool MainWindow::isSimulating(void){return ui->actionSimulation->isChecked();}
 
 void MainWindow::WCI(QString texte){WriteConsole(texte, MainWindow::important);}
 void MainWindow::WCN(QString texte){WriteConsole(texte, MainWindow::reseau);}

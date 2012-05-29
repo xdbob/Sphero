@@ -122,6 +122,8 @@ void Core::commande(QString instruction)
         ComJoyStick(false);
     else if(instruction == "joy list")
         getJoyState();
+    else if(instruction == "joy angle")
+        GUI->WriteConsole(tr("Angle : ") + QString::number(joy->getAngle()));
     else if(instruction.startsWith("joy set "))
     {
         instruction.remove(0, 8);
@@ -255,18 +257,9 @@ void Core::setMoteursSpeed(void)
     QList<double> value;
     QList<unsigned char> sortie;
     QList<unsigned char> srt2;
-    if(joy->getAxeY() == 0 && joy->getAxeX() <= 0)
-    {
-        value.push_back(vitesse * 0.50);
-        value.push_back(vitesse * 0.50);
-        value.push_back(-vitesse);
-    }
-    else
-    {
-        value.push_back(vitesse * cos(joy->getPI() * (angle + 30.0) / 180.0));
-        value.push_back(vitesse * cos(joy->getPI() * (angle + 150.0) / 180.0));
-        value.push_back(vitesse * cos(joy->getPI() *(angle + 270.0) / 180.0));
-    }
+    value.push_back(vitesse * cos(joy->getPI() * (angle + 150.0) / 180.0));
+    value.push_back(vitesse * cos(joy->getPI() * (angle + 30.0) / 180.0));
+    value.push_back(vitesse * cos(joy->getPI() *(angle + 270.0) / 180.0));
     if(GUI->isCurseur())
     {
         for(int i(0);i<3;i++)
@@ -278,6 +271,91 @@ void Core::setMoteursSpeed(void)
         }
     }
     GUI->echoVitesses(value);
+    if(!GUI->isSimulating())
+    {
+        value.clear();
+        if(vitesse < 30)
+        {
+            value.push_back(0.0);
+            value.push_back(0.0);
+            value.push_back(0.0);
+        }
+        else if(angle < 15.0 && angle >= -15.0)
+        {
+            value.push_back(-86.0);
+            value.push_back(86.0);
+            value.push_back(0.0);
+        }
+        else if(angle >= 15.0 && angle < 45.0)
+        {
+            value.push_back(-100.0);
+            value.push_back(50.0);
+            value.push_back(50.0);
+        }
+        else if(angle >= 45.0 && angle < 75.0)
+        {
+            value.push_back(-86.0);
+            value.push_back(0.0);
+            value.push_back(86.0);
+        }
+        else if(angle >= 75.0 && angle < 105.0)
+        {
+            value.push_back(-50.0);
+            value.push_back(-50.0);
+            value.push_back(100.0);
+        }
+        else if(angle >= 105.0 && angle < 135.0)
+        {
+            value.push_back(0.0);
+            value.push_back(-86.0);
+            value.push_back(86.0);
+        }
+        else if(angle >= 135.0 && angle < 165.0)
+        {
+            value.push_back(50.0);
+            value.push_back(-100.0);
+            value.push_back(50.0);
+        }
+        else if(angle >= 165.0 || angle < -165.0)
+        {
+            value.push_back(86.0);
+            value.push_back(-86.0);
+            value.push_back(0.0);
+        }
+        else if(angle >= -165.0 && angle < -135.0)
+        {
+            value.push_back(100.0);
+            value.push_back(-50.0);
+            value.push_back(-50.0);
+        }
+        else if(angle >= -135.0 && angle < -105.0)
+        {
+            value.push_back(86.0);
+            value.push_back(0.0);
+            value.push_back(-86.0);
+        }
+        else if(angle >= -105.0 && angle < -75.0)
+        {
+            value.push_back(50.0);
+            value.push_back(50.0);
+            value.push_back(-100.0);
+        }
+        else if(angle >= -75.0 && angle < -45.0)
+        {
+            value.push_back(0.0);
+            value.push_back(86.0);
+            value.push_back(-86.0);
+        }
+        else if(angle >= -45.0 && angle < -15.0)
+        {
+            value.push_back(-50.0);
+            value.push_back(100.0);
+            value.push_back(-50.0);
+        }
+        else
+            GUI->WriteConsole(tr("Erreur critique :  problème avec l'angle"), MainWindow::warning);
+    }
+
     if(d != 0)
     {
         QList<int> tmp;
